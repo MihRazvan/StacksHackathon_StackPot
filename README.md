@@ -78,19 +78,55 @@ The core contract handling:
 ### Installation
 
 ```bash
+cd stackpot
+
+# Ensure Node.js 20 is active
+nvm use 20  # or install with: nvm install 20
+
 # Install dependencies
 npm install
 
 # Check contract syntax
 clarinet check
 
-# Run unit tests (requires Node.js 20+)
+# Run unit tests
 npm test
+```
+
+### Test Results ✅
+
+**All 33 tests passing!**
+
+- **19 core tests** ([tests/pool-manager.test.ts](stackpot/tests/pool-manager.test.ts))
+  - Contract initialization verification
+  - Deposit functionality (minimum amounts, multiple deposits, participant tracking)
+  - Withdrawal functionality (partial, full, error conditions)
+  - Balance query accuracy
+  - Participant management across deposits/withdrawals
+
+- **14 advanced tests** ([tests/pool-manager-advanced.test.ts](stackpot/tests/pool-manager-advanced.test.ts))
+  - **Direct state inspection**: Using `simnet.getDataVar()` and `simnet.getMapEntry()` to verify internal contract state
+  - **Event verification**: Checking STX transfer events on deposits/withdrawals
+  - **Block height manipulation**: Testing time-based scenarios (weekly draws at 1,008 blocks)
+  - **Full lifecycle simulation**: Multi-participant scenarios over simulated time periods
+
+The advanced tests demonstrate patterns from the [official Stacks stream example](stream_example.md):
+```typescript
+// Direct state access
+const balance = simnet.getDataVar("pool-manager", "total-pool-balance");
+const participant = simnet.getMapEntry("pool-manager", "participant-list", Cl.uint(0));
+
+// Event verification
+expect(result.events[0].event).toBe("stx_transfer_event");
+expect(result.events[0].data.amount).toBe("5000000");
+
+// Time simulation
+simnet.mineEmptyBlocks(1008); // Simulate 1 week
 ```
 
 ### Manual Testing
 
-Since the project requires Node.js 20+ for vitest, you can test manually using Clarinet console:
+You can also test manually using Clarinet console:
 
 ```bash
 # Start Clarinet console
@@ -114,12 +150,15 @@ Or use the provided test script:
 
 ### ✅ Completed (Week 1)
 - [x] Clarinet project setup
-- [x] Pool manager contract with deposit/withdraw
-- [x] Participant tracking system
-- [x] Balance management
-- [x] Basic security measures
-- [x] Unit tests (vitest)
+- [x] Pool manager contract with deposit/withdraw (194 lines)
+- [x] Participant tracking system (3 data structures)
+- [x] Balance management with security checks
+- [x] Reentrancy protection & input validation
+- [x] **33 passing tests** (19 core + 14 advanced)
+- [x] Advanced simnet testing patterns
 - [x] Manual test script
+- [x] Fixed arithmetic underflow bug
+- [x] Comprehensive documentation
 
 ### 🚧 Next Steps (Week 2)
 

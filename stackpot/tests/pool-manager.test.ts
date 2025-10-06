@@ -1,4 +1,5 @@
 import { describe, expect, it, beforeEach } from "vitest";
+import { Cl } from "@stacks/transactions";
 
 const accounts = simnet.getAccounts();
 const deployer = accounts.get("deployer")!;
@@ -122,7 +123,7 @@ describe("StackPot Pool Manager", () => {
       );
 
       // Check participant count
-      const countResult = simnet.callReadOnlyFn(
+      const { result: countResult } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-participant-count",
         [],
@@ -131,7 +132,7 @@ describe("StackPot Pool Manager", () => {
       expect(countResult).toBeOk(Cl.uint(2));
 
       // Check total pool
-      const poolResult = simnet.callReadOnlyFn(
+      const { result: poolResult } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-total-pool",
         [],
@@ -140,7 +141,7 @@ describe("StackPot Pool Manager", () => {
       expect(poolResult).toBeOk(Cl.uint(MIN_DEPOSIT * 3));
 
       // Check individual balances
-      const balance1 = simnet.callReadOnlyFn(
+      const { result: balance1 } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-balance",
         [Cl.principal(wallet1)],
@@ -148,7 +149,7 @@ describe("StackPot Pool Manager", () => {
       );
       expect(balance1).toBeOk(Cl.uint(MIN_DEPOSIT));
 
-      const balance2 = simnet.callReadOnlyFn(
+      const { result: balance2 } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-balance",
         [Cl.principal(wallet2)],
@@ -175,7 +176,7 @@ describe("StackPot Pool Manager", () => {
       expect(result).toBeOk(Cl.some(Cl.uint(0)));
 
       // Check participant by index
-      const participantResult = simnet.callReadOnlyFn(
+      const { result: participantResult } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-participant",
         [Cl.uint(0)],
@@ -237,7 +238,7 @@ describe("StackPot Pool Manager", () => {
       );
 
       // Check balance is zero
-      const balance = simnet.callReadOnlyFn(
+      const { result: balance } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-balance",
         [Cl.principal(wallet1)],
@@ -314,7 +315,7 @@ describe("StackPot Pool Manager", () => {
         wallet1
       );
 
-      let balance = simnet.callReadOnlyFn(
+      let { result: balance } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-balance",
         [Cl.principal(wallet1)],
@@ -330,12 +331,12 @@ describe("StackPot Pool Manager", () => {
         wallet1
       );
 
-      balance = simnet.callReadOnlyFn(
+      ({ result: balance } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-balance",
         [Cl.principal(wallet1)],
         deployer
-      );
+      ));
       expect(balance).toBeOk(Cl.uint(MIN_DEPOSIT * 7));
     });
   });
@@ -363,7 +364,7 @@ describe("StackPot Pool Manager", () => {
       );
 
       // Check count
-      const count = simnet.callReadOnlyFn(
+      const { result: count } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-participant-count",
         [],
@@ -372,7 +373,7 @@ describe("StackPot Pool Manager", () => {
       expect(count).toBeOk(Cl.uint(3));
 
       // Check total pool
-      const pool = simnet.callReadOnlyFn(
+      const { result: pool } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-total-pool",
         [],
@@ -389,7 +390,7 @@ describe("StackPot Pool Manager", () => {
       );
 
       // Total pool should decrease
-      const newPool = simnet.callReadOnlyFn(
+      const { result: newPool } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-total-pool",
         [],
@@ -398,7 +399,7 @@ describe("StackPot Pool Manager", () => {
       expect(newPool).toBeOk(Cl.uint(MIN_DEPOSIT * 8));
 
       // Participant count stays the same (we keep them in the list)
-      const newCount = simnet.callReadOnlyFn(
+      const { result: newCount } = simnet.callReadOnlyFn(
         CONTRACT_NAME,
         "get-participant-count",
         [],

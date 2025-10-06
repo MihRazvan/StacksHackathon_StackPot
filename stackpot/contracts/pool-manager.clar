@@ -76,11 +76,14 @@
   (let (
     (sender tx-sender)
     (current-balance (default-to u0 (map-get? participant-balances sender)))
-    (new-balance (- current-balance amount))
   )
-    ;; Validate amount and balance
+    ;; Validate amount and balance FIRST (before calculating new-balance)
     (asserts! (> amount u0) ERR-INVALID-AMOUNT)
     (asserts! (>= current-balance amount) ERR-INSUFFICIENT-BALANCE)
+
+    (let (
+      (new-balance (- current-balance amount))
+    )
 
     ;; Update balance first (checks-effects-interactions pattern)
     (if (is-eq new-balance u0)
@@ -104,6 +107,7 @@
       remaining-balance: new-balance,
       total-pool: (var-get total-pool-balance)
     })
+    ) ;; close inner let
   )
 )
 
