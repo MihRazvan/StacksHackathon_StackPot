@@ -9,6 +9,11 @@ requirements = []
 path = 'contracts/pool-manager.clar'
 clarity_version = 3
 epoch = 'latest'
+
+[contracts.prize-distributor]
+path = 'contracts/prize-distributor.clar'
+clarity_version = 3
+epoch = 'latest'
 [repl.analysis]
 passes = ['check_checker']
 
