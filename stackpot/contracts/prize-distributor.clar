@@ -29,6 +29,7 @@
   uint  ;; draw-id
   {
     winner: (optional principal),
+    winner-balance: uint,
     prize-amount: uint,
     draw-block: uint,
     participants-count: uint,
@@ -65,10 +66,12 @@
         (winner-result (try! (select-winner-weighted total-shares participant-count current-block)))
         (draw-id (var-get current-draw-id))
         (prize-amount SIMULATED-PRIZE-PER-DRAW)
+        (winner-balance (unwrap-panic (contract-call? .pool-manager get-balance winner-result)))
       )
         ;; Record draw information
         (map-set draws draw-id {
           winner: (some winner-result),
+          winner-balance: winner-balance,
           prize-amount: prize-amount,
           draw-block: current-block,
           participants-count: participant-count,
@@ -176,6 +179,69 @@
 ;; Get total accumulated prize pool
 (define-read-only (get-prize-pool)
   (ok (var-get total-prize-pool))
+)
+
+;; Get comprehensive pool dashboard data for frontend
+(define-read-only (get-pool-dashboard)
+  (let (
+    (total-pool (unwrap-panic (contract-call? .pool-manager get-total-pool)))
+    (participant-count (unwrap-panic (contract-call? .pool-manager get-participant-count)))
+    (draw-id (var-get current-draw-id))
+    (blocks-until-next (unwrap-panic (blocks-until-next-draw)))
+  )
+    (ok {
+      ;; Pool stats
+      total-pool-balance: total-pool,
+      total-participants: participant-count,
+      total-prize-pool: (var-get total-prize-pool),
+      ;; Draw timing
+      current-draw-id: draw-id,
+      last-draw-block: (var-get last-draw-block),
+      blocks-until-next-draw: blocks-until-next,
+      can-draw-now: (>= blocks-until-next u0),
+      ;; Last draw info (if any)
+      last-draw-info: (if (> draw-id u0)
+        (map-get? draws (- draw-id u1))
+        none)
+    })
+  )
+)
+
+;; Get user-specific dashboard data
+(define-read-only (get-user-dashboard (user principal))
+  (let (
+    (user-balance (unwrap-panic (contract-call? .pool-manager get-balance user)))
+    (user-tickets (unwrap-panic (contract-call? .pool-manager get-user-tickets user)))
+    (win-prob (unwrap-panic (contract-call? .pool-manager get-win-probability user)))
+    (draw-id (var-get current-draw-id))
+  )
+    (ok {
+      ;; User position
+      balance: user-balance,
+      tickets: user-tickets,
+      win-probability: win-prob,
+      ;; Check if user won last draw
+      won-last-draw: (if (> draw-id u0)
+        (match (map-get? draws (- draw-id u1))
+          draw-info (match (get winner draw-info)
+            winner (is-eq winner user)
+            false)
+          false)
+        false),
+      ;; Unclaimed prizes (simplified for now - just check last draw)
+      unclaimed-prizes: (if (> draw-id u0)
+        (match (map-get? draws (- draw-id u1))
+          draw-info (if (and
+            (not (get claimed draw-info))
+            (match (get winner draw-info)
+              winner (is-eq winner user)
+              false))
+            (list {draw-id: (- draw-id u1), prize-amount: (get prize-amount draw-info)})
+            (list))
+          (list))
+        (list))
+    })
+  )
 )
 
 ;; Private functions

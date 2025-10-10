@@ -202,6 +202,66 @@
   )
 )
 
+;; Get user's ticket count (equal to their balance in microSTX)
+(define-read-only (get-user-tickets (user principal))
+  (ok (default-to u0 (map-get? participant-balances user)))
+)
+
+;; Get user's win probability based on their share of the pool
+;; Returns user tickets, total tickets, and probability in basis points (1/10000)
+(define-read-only (get-win-probability (user principal))
+  (let (
+    (user-balance (default-to u0 (map-get? participant-balances user)))
+    (total-balance (var-get total-pool-balance))
+  )
+    (if (> total-balance u0)
+      (ok {
+        user-tickets: user-balance,
+        total-tickets: total-balance,
+        probability-basis-points: (/ (* user-balance u10000) total-balance)
+      })
+      (ok {
+        user-tickets: u0,
+        total-tickets: u0,
+        probability-basis-points: u0
+      })
+    )
+  )
+)
+
+;; Preview what user's probability would be after depositing amount
+;; Useful for showing "Your odds will be X%" in the UI before deposit
+(define-read-only (preview-deposit (user principal) (amount uint))
+  (let (
+    (current-balance (default-to u0 (map-get? participant-balances user)))
+    (new-user-balance (+ current-balance amount))
+    (new-total-balance (+ (var-get total-pool-balance) amount))
+  )
+    (if (> new-total-balance u0)
+      (ok {
+        current-tickets: current-balance,
+        new-tickets: new-user-balance,
+        tickets-added: amount,
+        current-total-tickets: (var-get total-pool-balance),
+        new-total-tickets: new-total-balance,
+        current-probability-basis-points: (if (> (var-get total-pool-balance) u0)
+          (/ (* current-balance u10000) (var-get total-pool-balance))
+          u0),
+        new-probability-basis-points: (/ (* new-user-balance u10000) new-total-balance)
+      })
+      (ok {
+        current-tickets: current-balance,
+        new-tickets: new-user-balance,
+        tickets-added: amount,
+        current-total-tickets: (var-get total-pool-balance),
+        new-total-tickets: new-total-balance,
+        current-probability-basis-points: u0,
+        new-probability-basis-points: u0
+      })
+    )
+  )
+)
+
 ;; Private functions (helpers)
 
 ;; Helper to count active participants (simplified for now)
