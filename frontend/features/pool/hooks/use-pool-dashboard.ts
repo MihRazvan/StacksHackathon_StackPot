@@ -8,7 +8,10 @@ export function usePoolDashboard() {
     queryKey: ['pool-dashboard'],
     queryFn: async () => {
       const result = await getPoolDashboard();
-      return result.value;
+      if (result && result.value) {
+        return result.value;
+      }
+      return result;
     },
     refetchInterval: 10000, // Poll every 10 seconds
   });

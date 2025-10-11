@@ -1,62 +1,74 @@
 import { request } from '@stacks/connect';
-import { fetchCallReadOnlyFunction, cvToValue } from '@stacks/transactions';
+import {
+  fetchCallReadOnlyFunction,
+  cvToValue,
+  cvToHex,
+  Pc,
+  postConditionToHex
+} from '@stacks/transactions';
 import { CONTRACTS, NETWORK, getContractParts } from './config';
 import { uintCV, principalCV } from '@stacks/transactions';
 
 // ===== WRITE FUNCTIONS (require wallet signature) =====
 
-export async function deposit(amountMicroStx: number) {
-  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+export async function deposit(amountMicroStx: number, userAddress: string) {
+  console.log('💰 [deposit] Initiating deposit contract call:', { amountMicroStx, userAddress });
+
+  // Create post-condition: user will transfer <= amountMicroStx STX
+  // Using Pc builder pattern: Pc.principal(address).willSendLte(amount).ustx()
+  const postCondition = Pc.principal(userAddress).willSendLte(amountMicroStx).ustx();
+
+  console.log('💰 [deposit] Created post-condition:', postCondition);
+
+  // Serialize post-condition to hex
+  const postConditionHex = postConditionToHex(postCondition);
+  console.log('💰 [deposit] Serialized post-condition to hex:', postConditionHex);
 
   return await request('stx_callContract', {
-    contractAddress: address,
-    contractName: name,
+    contract: CONTRACTS.POOL_MANAGER,
     functionName: 'deposit',
-    functionArgs: [uintCV(amountMicroStx)],
+    functionArgs: [cvToHex(uintCV(amountMicroStx))],
+    postConditions: [postConditionHex],
   });
 }
 
 export async function withdraw(amountMicroStx: number) {
-  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+  console.log('💸 [withdraw] Initiating withdraw contract call:', { amountMicroStx });
 
   return await request('stx_callContract', {
-    contractAddress: address,
-    contractName: name,
+    contract: CONTRACTS.POOL_MANAGER,
     functionName: 'withdraw',
-    functionArgs: [uintCV(amountMicroStx)],
+    functionArgs: [cvToHex(uintCV(amountMicroStx))],
   });
 }
 
 export async function withdrawAll() {
-  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+  console.log('💸 [withdrawAll] Initiating withdraw-all contract call');
 
   return await request('stx_callContract', {
-    contractAddress: address,
-    contractName: name,
+    contract: CONTRACTS.POOL_MANAGER,
     functionName: 'withdraw-all',
     functionArgs: [],
   });
 }
 
 export async function triggerDraw() {
-  const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
+  console.log('🎰 [triggerDraw] Initiating trigger-draw contract call');
 
   return await request('stx_callContract', {
-    contractAddress: address,
-    contractName: name,
+    contract: CONTRACTS.PRIZE_DISTRIBUTOR,
     functionName: 'trigger-draw',
     functionArgs: [],
   });
 }
 
 export async function claimPrize(drawId: number) {
-  const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
+  console.log('🎁 [claimPrize] Initiating claim-prize contract call:', { drawId });
 
   return await request('stx_callContract', {
-    contractAddress: address,
-    contractName: name,
+    contract: CONTRACTS.PRIZE_DISTRIBUTOR,
     functionName: 'claim-prize',
-    functionArgs: [uintCV(drawId)],
+    functionArgs: [cvToHex(uintCV(drawId))],
   });
 }
 
