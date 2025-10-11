@@ -1,0 +1,25 @@
+---
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: "https://api.testnet.hiro.so"
+bitcoin-node: "http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: pool-manager
+            expected-sender: ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA
+            cost: 96500
+            path: contracts/pool-manager.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: prize-distributor
+            expected-sender: ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA
+            cost: 117340
+            path: contracts/prize-distributor.clar
+            anchor-block-only: true
+            clarity-version: 3
+      epoch: "3.2"
