@@ -32,23 +32,28 @@ export async function deposit(amountMicroStx: number, userAddress: string) {
   });
 }
 
-export async function withdraw(amountMicroStx: number) {
-  console.log('💸 [withdraw] Initiating withdraw contract call:', { amountMicroStx });
+export async function withdraw(amountMicroStx: number, userAddress: string) {
+  console.log('💸 [withdraw] Initiating withdraw contract call:', { amountMicroStx, userAddress });
 
+  // For withdrawals, the contract sends STX to the user
+  // We need to set post-condition mode to 'allow' to permit the contract transfer
   return await request('stx_callContract', {
     contract: CONTRACTS.POOL_MANAGER,
     functionName: 'withdraw',
     functionArgs: [cvToHex(uintCV(amountMicroStx))],
+    postConditionMode: 'allow',
   });
 }
 
-export async function withdrawAll() {
-  console.log('💸 [withdrawAll] Initiating withdraw-all contract call');
+export async function withdrawAll(userAddress: string) {
+  console.log('💸 [withdrawAll] Initiating withdraw-all contract call:', { userAddress });
 
+  // For withdraw-all, we need to set post-condition mode to 'allow'
   return await request('stx_callContract', {
     contract: CONTRACTS.POOL_MANAGER,
     functionName: 'withdraw-all',
     functionArgs: [],
+    postConditionMode: 'allow',
   });
 }
 

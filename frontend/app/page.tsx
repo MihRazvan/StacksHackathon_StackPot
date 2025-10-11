@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePoolDashboard } from '@/features/pool/hooks/use-pool-dashboard';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { DepositModal } from '@/features/pool/components/deposit-modal';
+import { WithdrawModal } from '@/features/pool/components/withdraw-modal';
 import { UserDashboard } from '@/features/user/components/user-dashboard';
 import { formatSTX, formatBTC } from '@/lib/utils';
 import { Bitcoin, Users, Clock } from 'lucide-react';
@@ -136,6 +137,12 @@ export default function Home() {
         <DepositModal
           isOpen={isDepositModalOpen}
           onClose={() => setIsDepositModalOpen(false)}
+        />
+
+        {/* Withdraw Modal */}
+        <WithdrawModal
+          isOpen={isWithdrawModalOpen}
+          onClose={() => setIsWithdrawModalOpen(false)}
         />
 
         {/* Last Winner */}
