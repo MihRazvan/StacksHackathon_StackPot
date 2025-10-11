@@ -53,7 +53,7 @@ export default function Home() {
               <h3 className="text-h3 text-soft-white">Total Pool</h3>
             </div>
             <p className="text-h2 text-soft-white font-mono">
-              {isLoading ? '...' : formatSTX(poolData?.['total-pool-balance'] || 0)}
+              {isLoading ? '...' : formatSTX(poolData?.['total-pool-balance']?.value || 0)}
             </p>
             <p className="text-small text-warm-gray mt-1">STX</p>
           </div>
@@ -67,7 +67,7 @@ export default function Home() {
               <h3 className="text-h3 text-soft-white">Participants</h3>
             </div>
             <p className="text-h2 text-soft-white font-mono">
-              {isLoading ? '...' : (poolData?.['total-participants'] || 0).toString()}
+              {isLoading ? '...' : (poolData?.['total-participants']?.value || 0).toString()}
             </p>
             <p className="text-small text-warm-gray mt-1">Players</p>
           </div>
@@ -81,9 +81,9 @@ export default function Home() {
               <h3 className="text-h3 text-soft-white">Next Draw</h3>
             </div>
             <p className="text-h2 text-soft-white font-mono">
-              {isLoading ? '...' : poolData?.['blocks-until-next-draw'] || 0}
+              {isLoading ? '...' : poolData?.['blocks-until-next-draw']?.value || 0}
             </p>
-            <p className="text-small text-warm-gray mt-1">Blocks (~{isLoading ? '...' : Math.floor((poolData?.['blocks-until-next-draw'] || 0) * 10 / 60)} min)</p>
+            <p className="text-small text-warm-gray mt-1">Blocks (~{isLoading ? '...' : Math.floor((poolData?.['blocks-until-next-draw']?.value || 0) * 10 / 60)} min)</p>
           </div>
         </section>
 
@@ -109,16 +109,16 @@ export default function Home() {
         </section>
 
         {/* Last Winner */}
-        {!isLoading && poolData?.['last-draw-info'] && (
+        {!isLoading && poolData?.['last-draw-info']?.value && (
           <section className="mt-12">
             <div className="glass-card p-6 rounded-xl max-w-2xl mx-auto">
               <h3 className="text-h3 text-soft-white mb-4 text-center">🎉 Last Winner</h3>
               <div className="text-center">
                 <p className="text-mono text-electric-violet mb-2">
-                  {poolData['last-draw-info'].winner?.value || 'No winner yet'}
+                  {poolData['last-draw-info'].value.winner?.value || 'No winner yet'}
                 </p>
                 <p className="text-body text-warm-gray">
-                  Won {formatBTC(poolData['last-draw-info']['prize-amount']?.value || 0)} BTC
+                  Won {formatBTC(poolData['last-draw-info'].value['prize-amount']?.value || 0)} BTC
                 </p>
               </div>
             </div>

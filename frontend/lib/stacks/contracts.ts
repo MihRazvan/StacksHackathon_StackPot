@@ -1,5 +1,5 @@
 import { request } from '@stacks/connect';
-import { callReadOnlyFunction, cvToValue, hexToCV } from '@stacks/transactions';
+import { fetchCallReadOnlyFunction, cvToValue } from '@stacks/transactions';
 import { CONTRACTS, NETWORK, getContractParts } from './config';
 import { uintCV, principalCV } from '@stacks/transactions';
 
@@ -65,7 +65,7 @@ export async function claimPrize(drawId: number) {
 export async function getPoolDashboard() {
   const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'get-pool-dashboard',
@@ -80,7 +80,7 @@ export async function getPoolDashboard() {
 export async function getUserDashboard(userAddress: string) {
   const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'get-user-dashboard',
@@ -95,7 +95,7 @@ export async function getUserDashboard(userAddress: string) {
 export async function getBalance(userAddress: string) {
   const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'get-balance',
@@ -110,7 +110,7 @@ export async function getBalance(userAddress: string) {
 export async function getWinProbability(userAddress: string) {
   const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'get-win-probability',
@@ -125,7 +125,7 @@ export async function getWinProbability(userAddress: string) {
 export async function previewDeposit(userAddress: string, amountMicroStx: number) {
   const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'preview-deposit',
@@ -140,7 +140,7 @@ export async function previewDeposit(userAddress: string, amountMicroStx: number
 export async function canTriggerDraw() {
   const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'can-trigger-draw',
@@ -155,7 +155,7 @@ export async function canTriggerDraw() {
 export async function blocksUntilNextDraw() {
   const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'blocks-until-next-draw',
@@ -170,7 +170,7 @@ export async function blocksUntilNextDraw() {
 export async function getCurrentDrawInfo() {
   const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
 
-  const result = await callReadOnlyFunction({
+  const result = await fetchCallReadOnlyFunction({
     contractAddress: address,
     contractName: name,
     functionName: 'get-current-draw-info',
