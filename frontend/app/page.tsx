@@ -6,6 +6,7 @@ import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { DepositModal } from '@/features/pool/components/deposit-modal';
 import { WithdrawModal } from '@/features/pool/components/withdraw-modal';
 import { UserDashboard } from '@/features/user/components/user-dashboard';
+import { TriggerDrawCard } from '@/features/draw/components/trigger-draw-card';
 import { formatSTX, formatBTC } from '@/lib/utils';
 import { Bitcoin, Users, Clock } from 'lucide-react';
 
@@ -14,6 +15,21 @@ export default function Home() {
   const { isConnected } = useWallet();
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+
+  // Debug logging for draw info
+  if (poolData && !isLoading) {
+    console.log('🎲 [HomePage] Current Draw ID:', poolData['current-draw-id']);
+    console.log('🎲 [HomePage] Last Draw Info:', poolData['last-draw-info']);
+    if (poolData['last-draw-info']?.value?.value) {
+      const drawInfo = poolData['last-draw-info'].value.value;
+      console.log('🎲 [HomePage] ✅ Winner:', drawInfo?.winner?.value);
+      console.log('🎲 [HomePage] ✅ Prize Amount:', drawInfo?.['prize-amount']?.value);
+      console.log('🎲 [HomePage] ✅ Draw Block:', drawInfo?.['draw-block']?.value);
+      console.log('🎲 [HomePage] ✅ Participants:', drawInfo?.['participants-count']?.value);
+      console.log('🎲 [HomePage] ✅ Winner Balance:', drawInfo?.['winner-balance']?.value);
+      console.log('🎲 [HomePage] ✅ Claimed:', drawInfo?.claimed?.value);
+    }
+  }
 
   if (error) {
     return (
@@ -99,9 +115,20 @@ export default function Home() {
             <p className="text-h2 text-soft-white font-mono">
               {isLoading ? '...' : poolData?.['blocks-until-next-draw']?.value ?? '0'}
             </p>
-            <p className="text-small text-warm-gray mt-1">Blocks (~{isLoading ? '...' : Math.floor(Number(poolData?.['blocks-until-next-draw']?.value ?? 0) * 10 / 60)} min)</p>
+            <p className="text-small text-warm-gray mt-1">Bitcoin Blocks (~{isLoading ? '...' : Math.floor(Number(poolData?.['blocks-until-next-draw']?.value ?? 0) * 10)} min)</p>
           </div>
         </section>
+
+        {/* Trigger Draw Card */}
+        {!isLoading && poolData && (
+          <TriggerDrawCard
+            canDrawNow={Number(poolData?.['blocks-until-next-draw']?.value ?? 1) === 0}
+            blocksUntilNextDraw={Number(poolData?.['blocks-until-next-draw']?.value ?? 0)}
+            currentDrawId={Number(poolData?.['current-draw-id']?.value ?? 0)}
+            totalParticipants={Number(poolData?.['total-participants']?.value ?? 0)}
+            isLoading={isLoading}
+          />
+        )}
 
         {/* CTA Section */}
         <section className="text-center">
@@ -146,17 +173,51 @@ export default function Home() {
         />
 
         {/* Last Winner */}
-        {!isLoading && poolData?.['last-draw-info']?.value && (
+        {!isLoading && poolData && Number(poolData?.['current-draw-id']?.value ?? 0) > 0 && (
           <section className="mt-12">
             <div className="glass-card p-6 rounded-xl max-w-2xl mx-auto">
               <h3 className="text-h3 text-soft-white mb-4 text-center">🎉 Last Winner</h3>
               <div className="text-center">
-                <p className="text-mono text-electric-violet mb-2">
-                  {poolData['last-draw-info']?.value?.winner?.value ?? 'No winner yet'}
-                </p>
-                <p className="text-body text-warm-gray">
-                  Won {formatBTC(Number(poolData['last-draw-info']?.value?.['prize-amount']?.value ?? 0))} BTC
-                </p>
+                {poolData['last-draw-info']?.value?.value ? (
+                  <>
+                    <p className="text-mono text-electric-violet mb-2 text-h3">
+                      {String(poolData['last-draw-info']?.value?.value?.winner?.value?.value ?? poolData['last-draw-info']?.value?.value?.winner?.value ?? 'No winner selected')}
+                    </p>
+                    <p className="text-body text-warm-gray mb-4">
+                      Won <span className="text-bitcoin-gold font-semibold">{formatBTC(Number(poolData['last-draw-info']?.value?.value?.['prize-amount']?.value ?? 0))} BTC</span>
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 mt-4 p-4 bg-charcoal/50 border border-border-gray rounded-lg text-small">
+                      <div>
+                        <span className="text-warm-gray">Draw Block: </span>
+                        <span className="text-soft-white font-mono">
+                          {String(poolData['last-draw-info']?.value?.value?.['draw-block']?.value ?? 'N/A')}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-warm-gray">Participants: </span>
+                        <span className="text-soft-white font-mono">
+                          {String(poolData['last-draw-info']?.value?.value?.['participants-count']?.value ?? '0')}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-warm-gray">Winner Balance: </span>
+                        <span className="text-soft-white font-mono">
+                          {formatSTX(Number(poolData['last-draw-info']?.value?.value?.['winner-balance']?.value ?? 0))} STX
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-warm-gray">Claimed: </span>
+                        <span className={`font-mono ${poolData['last-draw-info']?.value?.value?.claimed?.value ? 'text-success-green' : 'text-warm-gray'}`}>
+                          {poolData['last-draw-info']?.value?.value?.claimed?.value ? 'Yes ✓' : 'No'}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-warm-gray">
+                    Draw has been triggered. Waiting for winner data to load...
+                  </p>
+                )}
               </div>
             </div>
           </section>

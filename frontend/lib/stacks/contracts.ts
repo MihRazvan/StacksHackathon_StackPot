@@ -60,10 +60,12 @@ export async function withdrawAll(userAddress: string) {
 export async function triggerDraw() {
   console.log('🎰 [triggerDraw] Initiating trigger-draw contract call');
 
+  // Trigger draw may transfer STX to winner, so use 'allow' mode
   return await request('stx_callContract', {
     contract: CONTRACTS.PRIZE_DISTRIBUTOR,
     functionName: 'trigger-draw',
     functionArgs: [],
+    postConditionMode: 'allow',
   });
 }
 
