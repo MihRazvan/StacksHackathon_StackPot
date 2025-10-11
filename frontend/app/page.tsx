@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePoolDashboard } from '@/features/pool/hooks/use-pool-dashboard';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { DepositModal } from '@/features/pool/components/deposit-modal';
+import { UserDashboard } from '@/features/user/components/user-dashboard';
 import { formatSTX, formatBTC } from '@/lib/utils';
 import { Bitcoin, Users, Clock } from 'lucide-react';
 
@@ -11,6 +12,7 @@ export default function Home() {
   const { data: poolData, isLoading, error } = usePoolDashboard();
   const { isConnected } = useWallet();
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   if (error) {
     return (
@@ -46,6 +48,14 @@ export default function Home() {
             The no-loss lottery on Stacks. Deposit STX, win BTC prizes from staking yield, withdraw anytime.
           </p>
         </section>
+
+        {/* User Dashboard - Only shown when wallet is connected */}
+        {isConnected && (
+          <UserDashboard
+            onDeposit={() => setIsDepositModalOpen(true)}
+            onWithdraw={() => setIsWithdrawModalOpen(true)}
+          />
+        )}
 
         {/* Stats Grid */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
