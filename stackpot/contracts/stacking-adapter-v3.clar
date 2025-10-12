@@ -24,11 +24,18 @@
 ;; Contract owner (for admin functions)
 (define-data-var contract-owner principal tx-sender)
 
+;; Demo mode flag - enables yield simulation for presentations
+;; Set to false for production deployment
+(define-data-var demo-mode bool true)
+
 ;; Track total STX deposited into StackingDAO
 (define-data-var total-stx-deposited uint u0)
 
 ;; Track total stSTX received from StackingDAO
 (define-data-var total-ststx-balance uint u0)
+
+;; Simulated yield for demo purposes (only used when demo-mode is true)
+(define-data-var simulated-yield uint u0)
 
 ;; Track pending withdrawals by user (NFT ID -> user principal)
 ;; Note: In production, this should be a map tracking withdrawal NFT IDs
@@ -251,6 +258,7 @@
 ;; Calculate total yield accumulated in the pool
 ;; Yield = (current stSTX value in STX) - (original STX deposited)
 ;; This is the BTC rewards that have been converted to STX and auto-compounded
+;; In DEMO MODE: adds simulated yield to the calculation
 (define-read-only (get-accumulated-yield)
   (let (
     (deposited-amount (var-get total-stx-deposited))
@@ -259,13 +267,19 @@
     (ratio (get ratio-basis-points ratio-data))
     ;; Current STX value = stSTX * ratio / 10000
     (current-stx-value (/ (* total-ststx ratio) u10000))
+    ;; Add simulated yield if in demo mode
+    (demo-yield (if (var-get demo-mode) (var-get simulated-yield) u0))
+    (total-value (+ current-stx-value demo-yield))
   )
     (ok {
       total-deposited: deposited-amount,
-      current-value: current-stx-value,
+      current-value: total-value,
+      real-value: current-stx-value,
+      simulated-yield: demo-yield,
+      demo-mode: (var-get demo-mode),
       ;; Yield is the difference (can be negative if withdrawals > deposits + yield)
-      yield-accumulated: (if (> current-stx-value deposited-amount)
-        (- current-stx-value deposited-amount)
+      yield-accumulated: (if (> total-value deposited-amount)
+        (- total-value deposited-amount)
         u0)
     })
   )
@@ -293,6 +307,8 @@
     total-stx-deposited: (var-get total-stx-deposited),
     total-ststx-balance: (var-get total-ststx-balance),
     next-withdrawal-id: (var-get next-withdrawal-id),
+    demo-mode: (var-get demo-mode),
+    simulated-yield: (var-get simulated-yield),
     ;; StackingDAO contract addresses
     stacking-dao-core: STACKING-DAO-CORE,
     reserve-contract: RESERVE-CONTRACT,
@@ -300,4 +316,69 @@
     staking-contract: STAKING-CONTRACT,
     direct-helpers: DIRECT-HELPERS
   })
+)
+
+;; ============================================
+;; DEMO MODE FUNCTIONS (For Presentations)
+;; ============================================
+;; IMPORTANT: These functions are for demonstration purposes only
+;; Set demo-mode to false before mainnet production deployment
+
+;; Enable or disable demo mode (owner only)
+(define-public (set-demo-mode (enabled bool))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
+    (var-set demo-mode enabled)
+    (ok {
+      demo-mode: enabled,
+      note: (if enabled "Demo mode ENABLED - Yield simulation active" "Demo mode DISABLED - Using real StackingDAO")
+    })
+  )
+)
+
+;; Simulate stacking yield for demo purposes
+;; This artificially increases the stSTX/STX ratio to show how yield accumulates
+;; @param yield-amount: Amount of "yield" to add (in microSTX)
+(define-public (simulate-yield-for-demo (yield-amount uint))
+  (begin
+    ;; Only owner can simulate yield
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
+
+    ;; Only works in demo mode
+    (asserts! (var-get demo-mode) (err u999)) ;; ERR-NOT-IN-DEMO-MODE
+
+    ;; Validate amount
+    (asserts! (> yield-amount u0) ERR-INVALID-AMOUNT)
+
+    ;; Add to simulated yield
+    (var-set simulated-yield (+ (var-get simulated-yield) yield-amount))
+
+    (ok {
+      simulated-yield-added: yield-amount,
+      total-simulated-yield: (var-get simulated-yield),
+      note: "Fast-forwarded stacking time! Yield simulated for demo.",
+      warning: "DEMO MODE - This is not real yield. Disable demo-mode for production."
+    })
+  )
+)
+
+;; Reset simulated yield to zero (owner only, demo mode only)
+(define-public (reset-simulated-yield)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-NOT-AUTHORIZED)
+    (asserts! (var-get demo-mode) (err u999))
+
+    (var-set simulated-yield u0)
+    (ok { note: "Simulated yield reset to 0" })
+  )
+)
+
+;; Check if contract is in demo mode
+(define-read-only (is-demo-mode)
+  (ok (var-get demo-mode))
+)
+
+;; Get current simulated yield amount
+(define-read-only (get-simulated-yield)
+  (ok (var-get simulated-yield))
 )

@@ -9,17 +9,24 @@ plan:
     - id: 0
       transactions:
         - contract-publish:
-            contract-name: pool-manager
+            contract-name: stacking-adapter-v3
             expected-sender: ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA
-            cost: 96500
-            path: contracts/pool-manager.clar
+            cost: 3166621
+            path: contracts/stacking-adapter-v3.clar
             anchor-block-only: true
             clarity-version: 3
         - contract-publish:
-            contract-name: prize-distributor
+            contract-name: pool-manager-v3
             expected-sender: ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA
-            cost: 117340
-            path: contracts/prize-distributor.clar
+            cost: 3163791
+            path: contracts/pool-manager-v3.clar
+            anchor-block-only: true
+            clarity-version: 3
+        - contract-publish:
+            contract-name: prize-distributor-v3
+            expected-sender: ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA
+            cost: 3164357
+            path: contracts/prize-distributor-v3.clar
             anchor-block-only: true
             clarity-version: 3
       epoch: "3.2"

@@ -16,7 +16,7 @@
 (define-constant SIMULATED-PRIZE-PER-DRAW u10000000) ;; 0.1 BTC in sats for testing
 (define-constant CONTRACT-OWNER tx-sender)
 
-;; Note: pool-manager contract reference is .pool-manager (used directly in contract-call?)
+;; Note: pool-manager contract reference is .pool-manager-v3 (used directly in contract-call?)
 
 ;; Data variables
 (define-data-var last-draw-block uint u0)
@@ -54,8 +54,8 @@
 
     ;; Get total shares and participant count from pool-manager
     (let (
-      (participant-count (unwrap-panic (contract-call? .pool-manager get-participant-count)))
-      (total-shares (unwrap-panic (contract-call? .pool-manager get-total-shares)))
+      (participant-count (unwrap-panic (contract-call? .pool-manager-v3 get-participant-count)))
+      (total-shares (unwrap-panic (contract-call? .pool-manager-v3 get-total-shares)))
     )
       ;; Must have at least one participant and shares > 0
       (asserts! (> participant-count u0) ERR-NO-PARTICIPANTS)
@@ -66,9 +66,9 @@
         (winner-result (try! (select-winner-weighted total-shares participant-count current-block)))
         (draw-id (var-get current-draw-id))
         ;; Calculate real prize from accumulated stacking yield
-        (yield-data (unwrap-panic (contract-call? .pool-manager get-pool-yield)))
+        (yield-data (unwrap-panic (contract-call? .pool-manager-v3 get-pool-yield)))
         (prize-amount (get yield-accumulated yield-data))
-        (winner-balance (unwrap-panic (contract-call? .pool-manager get-balance winner-result)))
+        (winner-balance (unwrap-panic (contract-call? .pool-manager-v3 get-balance winner-result)))
       )
         ;; Only proceed if there's actual yield to distribute
         ;; If no yield, still record the draw but with 0 prize
@@ -192,8 +192,8 @@
 ;; Get comprehensive pool dashboard data for frontend
 (define-read-only (get-pool-dashboard)
   (let (
-    (total-pool (unwrap-panic (contract-call? .pool-manager get-total-pool)))
-    (participant-count (unwrap-panic (contract-call? .pool-manager get-participant-count)))
+    (total-pool (unwrap-panic (contract-call? .pool-manager-v3 get-total-pool)))
+    (participant-count (unwrap-panic (contract-call? .pool-manager-v3 get-participant-count)))
     (draw-id (var-get current-draw-id))
     (blocks-until-next (unwrap-panic (blocks-until-next-draw)))
   )
@@ -218,9 +218,9 @@
 ;; Get user-specific dashboard data
 (define-read-only (get-user-dashboard (user principal))
   (let (
-    (user-balance (unwrap-panic (contract-call? .pool-manager get-balance user)))
-    (user-tickets (unwrap-panic (contract-call? .pool-manager get-user-tickets user)))
-    (win-prob (unwrap-panic (contract-call? .pool-manager get-win-probability user)))
+    (user-balance (unwrap-panic (contract-call? .pool-manager-v3 get-balance user)))
+    (user-tickets (unwrap-panic (contract-call? .pool-manager-v3 get-user-tickets user)))
+    (win-prob (unwrap-panic (contract-call? .pool-manager-v3 get-win-probability user)))
     (draw-id (var-get current-draw-id))
   )
     (ok {
@@ -332,12 +332,12 @@
       ;; No winner yet, check this participant
       (if (< index participant-count)
         (let (
-          (cumulative (unwrap! (contract-call? .pool-manager get-cumulative-shares index) state))
+          (cumulative (unwrap! (contract-call? .pool-manager-v3 get-cumulative-shares index) state))
         )
           (if (< target cumulative)
             ;; Found the winner!
             (let (
-              (participant-opt (unwrap! (contract-call? .pool-manager get-participant index) state))
+              (participant-opt (unwrap! (contract-call? .pool-manager-v3 get-participant index) state))
             )
               (match participant-opt
                 data {

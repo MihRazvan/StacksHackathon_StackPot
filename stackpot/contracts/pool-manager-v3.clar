@@ -51,7 +51,7 @@
 
     ;; Deposit STX into stacking adapter to receive stSTX
     ;; This generates yield through StackingDAO
-    (try! (as-contract (contract-call? .stacking-adapter deposit-to-stacking amount)))
+    (try! (as-contract (contract-call? .stacking-adapter-v3 deposit-to-stacking amount)))
 
     ;; If new participant, add to participant list
     (if (is-eq current-balance u0)
@@ -90,7 +90,7 @@
     (let (
       (new-balance (- current-balance amount))
       ;; Preview withdrawal to see how much stSTX we need to burn
-      (preview-result (unwrap-panic (contract-call? .stacking-adapter preview-withdrawal amount true)))
+      (preview-result (unwrap-panic (contract-call? .stacking-adapter-v3 preview-withdrawal amount true)))
       (ststx-to-burn (get ststx-to-burn preview-result))
     )
 
@@ -111,7 +111,7 @@
     ;; Withdraw STX from stacking adapter using instant withdrawal
     ;; This burns stSTX and returns STX (with 1% fee deducted by stacking-adapter)
     (let (
-      (withdrawal-result (try! (as-contract (contract-call? .stacking-adapter instant-withdrawal ststx-to-burn))))
+      (withdrawal-result (try! (as-contract (contract-call? .stacking-adapter-v3 instant-withdrawal ststx-to-burn))))
       (stx-received (get stx-received withdrawal-result))
     )
       ;; Transfer the received STX to the user
@@ -283,8 +283,8 @@
 ;; This shows the total value including accumulated yield
 (define-read-only (get-contract-ststx-value)
   (let (
-    (ststx-balance (unwrap-panic (contract-call? .stacking-adapter get-total-ststx-balance)))
-    (ratio-data (unwrap-panic (contract-call? .stacking-adapter get-ststx-stx-ratio)))
+    (ststx-balance (unwrap-panic (contract-call? .stacking-adapter-v3 get-total-ststx-balance)))
+    (ratio-data (unwrap-panic (contract-call? .stacking-adapter-v3 get-ststx-stx-ratio)))
     (ratio (get ratio-basis-points ratio-data))
     ;; Convert stSTX to STX value: stSTX * ratio / 10000
     (stx-value (/ (* ststx-balance ratio) u10000))
@@ -305,7 +305,7 @@
     (user-balance (default-to u0 (map-get? participant-balances user)))
   )
     (if (> user-balance u0)
-      (contract-call? .stacking-adapter preview-withdrawal user-balance true)
+      (contract-call? .stacking-adapter-v3 preview-withdrawal user-balance true)
       (ok {
         ststx-to-burn: u0,
         stx-to-receive: u0,
@@ -319,7 +319,7 @@
 ;; Get accumulated yield in the pool
 ;; This is the difference between stSTX value and user deposits
 (define-read-only (get-pool-yield)
-  (contract-call? .stacking-adapter get-accumulated-yield)
+  (contract-call? .stacking-adapter-v3 get-accumulated-yield)
 )
 
 ;; Private functions (helpers)
