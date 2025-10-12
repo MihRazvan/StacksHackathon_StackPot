@@ -10,6 +10,7 @@ import { CONTRACTS, NETWORK, getContractParts } from './config';
 
 // ===== WRITE FUNCTIONS (require wallet signature) =====
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function deposit(amountMicroStx: number, userAddress: string) {
   // With v3 contracts, the deposit flow involves multiple transfers:
   // 1. User -> pool-manager-v3
@@ -23,6 +24,7 @@ export async function deposit(amountMicroStx: number, userAddress: string) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function withdraw(amountMicroStx: number, userAddress: string) {
   // For withdrawals, the contract sends STX to the user
   // We need to set post-condition mode to 'allow' to permit the contract transfer
@@ -34,6 +36,7 @@ export async function withdraw(amountMicroStx: number, userAddress: string) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function withdrawAll(userAddress: string) {
   // For withdraw-all, we need to set post-condition mode to 'allow'
   return await request('stx_callContract', {
