@@ -5,7 +5,6 @@ import { X, ArrowUpCircle, AlertCircle } from 'lucide-react';
 import { withdraw, withdrawAll, getInstantWithdrawalFee } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { useUserDashboard } from '@/features/user/hooks/use-user-dashboard';
-import { useWithdrawalEstimate } from '@/features/pool/hooks/use-withdrawal-estimate';
 import { formatSTX } from '@/lib/utils';
 import { CONSTANTS } from '@/lib/stacks/config';
 
@@ -17,7 +16,6 @@ interface WithdrawModalProps {
 export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
   const { stxAddress } = useWallet();
   const { data: userData } = useUserDashboard(stxAddress);
-  const { data: withdrawalEstimate } = useWithdrawalEstimate(stxAddress);
   const [amount, setAmount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

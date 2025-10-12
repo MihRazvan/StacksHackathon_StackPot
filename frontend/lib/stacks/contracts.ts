@@ -305,7 +305,7 @@ export async function getSimulatedYield() {
   return cvToValue(result);
 }
 
-export async function getInstantWithdrawalFee(amountMicroStx: number) {
+export function getInstantWithdrawalFee(amountMicroStx: number) {
   // Calculate 1% fee locally (100 basis points = 1%)
   return Math.floor(amountMicroStx * 0.01);
 }

@@ -14,7 +14,7 @@ interface UserDashboardProps {
 export function UserDashboard({ onWithdraw, onDeposit }: UserDashboardProps) {
   const { stxAddress } = useWallet();
   const { data: userData, isLoading, error } = useUserDashboard(stxAddress);
-  const { data: withdrawalEstimate } = useWithdrawalEstimate(stxAddress);
+  const { data: withdrawalEstimate } = useWithdrawalEstimate(stxAddress || undefined);
 
   if (!stxAddress) {
     return null; // Don't show if not connected
