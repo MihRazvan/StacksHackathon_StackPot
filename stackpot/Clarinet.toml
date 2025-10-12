@@ -5,13 +5,18 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
-[contracts.pool-manager]
-path = 'contracts/pool-manager.clar'
+[contracts.pool-manager-v3]
+path = 'contracts/pool-manager-v3.clar'
 clarity_version = 3
 epoch = 'latest'
 
-[contracts.prize-distributor]
-path = 'contracts/prize-distributor.clar'
+[contracts.prize-distributor-v3]
+path = 'contracts/prize-distributor-v3.clar'
+clarity_version = 3
+epoch = 'latest'
+
+[contracts.stacking-adapter-v3]
+path = 'contracts/stacking-adapter-v3.clar'
 clarity_version = 3
 epoch = 'latest'
 [repl.analysis]

@@ -3,38 +3,27 @@ import {
   fetchCallReadOnlyFunction,
   cvToValue,
   cvToHex,
-  Pc,
-  postConditionToHex
+  uintCV,
+  principalCV
 } from '@stacks/transactions';
 import { CONTRACTS, NETWORK, getContractParts } from './config';
-import { uintCV, principalCV } from '@stacks/transactions';
 
 // ===== WRITE FUNCTIONS (require wallet signature) =====
 
 export async function deposit(amountMicroStx: number, userAddress: string) {
-  console.log('💰 [deposit] Initiating deposit contract call:', { amountMicroStx, userAddress });
-
-  // Create post-condition: user will transfer <= amountMicroStx STX
-  // Using Pc builder pattern: Pc.principal(address).willSendLte(amount).ustx()
-  const postCondition = Pc.principal(userAddress).willSendLte(amountMicroStx).ustx();
-
-  console.log('💰 [deposit] Created post-condition:', postCondition);
-
-  // Serialize post-condition to hex
-  const postConditionHex = postConditionToHex(postCondition);
-  console.log('💰 [deposit] Serialized post-condition to hex:', postConditionHex);
-
+  // With v3 contracts, the deposit flow involves multiple transfers:
+  // 1. User -> pool-manager-v3
+  // 2. pool-manager-v3 -> stacking-adapter-v3
+  // We use 'allow' mode to permit these contract-to-contract transfers
   return await request('stx_callContract', {
     contract: CONTRACTS.POOL_MANAGER,
     functionName: 'deposit',
     functionArgs: [cvToHex(uintCV(amountMicroStx))],
-    postConditions: [postConditionHex],
+    postConditionMode: 'allow',
   });
 }
 
 export async function withdraw(amountMicroStx: number, userAddress: string) {
-  console.log('💸 [withdraw] Initiating withdraw contract call:', { amountMicroStx, userAddress });
-
   // For withdrawals, the contract sends STX to the user
   // We need to set post-condition mode to 'allow' to permit the contract transfer
   return await request('stx_callContract', {
@@ -46,8 +35,6 @@ export async function withdraw(amountMicroStx: number, userAddress: string) {
 }
 
 export async function withdrawAll(userAddress: string) {
-  console.log('💸 [withdrawAll] Initiating withdraw-all contract call:', { userAddress });
-
   // For withdraw-all, we need to set post-condition mode to 'allow'
   return await request('stx_callContract', {
     contract: CONTRACTS.POOL_MANAGER,
@@ -58,8 +45,6 @@ export async function withdrawAll(userAddress: string) {
 }
 
 export async function triggerDraw() {
-  console.log('🎰 [triggerDraw] Initiating trigger-draw contract call');
-
   // Trigger draw may transfer STX to winner, so use 'allow' mode
   return await request('stx_callContract', {
     contract: CONTRACTS.PRIZE_DISTRIBUTOR,
@@ -70,8 +55,6 @@ export async function triggerDraw() {
 }
 
 export async function claimPrize(drawId: number) {
-  console.log('🎁 [claimPrize] Initiating claim-prize contract call:', { drawId });
-
   return await request('stx_callContract', {
     contract: CONTRACTS.PRIZE_DISTRIBUTOR,
     functionName: 'claim-prize',
@@ -214,4 +197,112 @@ export async function getDrawInfo(drawId: number) {
   });
 
   return cvToValue(result);
+}
+
+// ===== STACKING ADAPTER FUNCTIONS =====
+
+export async function simulateYieldForDemo(yieldAmount: number) {
+  console.log('⚡ [simulateYieldForDemo] Simulating yield for demo:', { yieldAmount });
+
+  return await request('stx_callContract', {
+    contract: CONTRACTS.STACKING_ADAPTER,
+    functionName: 'simulate-yield-for-demo',
+    functionArgs: [cvToHex(uintCV(yieldAmount))],
+    postConditionMode: 'allow',
+  });
+}
+
+export async function getAccumulatedYield() {
+  const { address, name } = getContractParts(CONTRACTS.STACKING_ADAPTER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-accumulated-yield',
+    functionArgs: [],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function getPoolYield() {
+  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-pool-yield',
+    functionArgs: [],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function getUserWithdrawalEstimate(userAddress: string) {
+  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-user-withdrawal-estimate',
+    functionArgs: [principalCV(userAddress)],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function getContractStSTXValue() {
+  const { address, name } = getContractParts(CONTRACTS.POOL_MANAGER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-contract-ststx-value',
+    functionArgs: [],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function isDemoMode() {
+  const { address, name } = getContractParts(CONTRACTS.STACKING_ADAPTER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'is-demo-mode',
+    functionArgs: [],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function getSimulatedYield() {
+  const { address, name } = getContractParts(CONTRACTS.STACKING_ADAPTER);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-simulated-yield',
+    functionArgs: [],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
+
+export async function getInstantWithdrawalFee(amountMicroStx: number) {
+  // Calculate 1% fee locally (100 basis points = 1%)
+  return Math.floor(amountMicroStx * 0.01);
 }

@@ -64,13 +64,18 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
-            contract-name: pool-manager
+            contract-name: stacking-adapter-v3
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/pool-manager.clar
+            path: contracts/stacking-adapter-v3.clar
             clarity-version: 3
         - emulated-contract-publish:
-            contract-name: prize-distributor
+            contract-name: pool-manager-v3
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-            path: contracts/prize-distributor.clar
+            path: contracts/pool-manager-v3.clar
+            clarity-version: 3
+        - emulated-contract-publish:
+            contract-name: prize-distributor-v3
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/prize-distributor-v3.clar
             clarity-version: 3
       epoch: "3.2"

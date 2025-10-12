@@ -27,59 +27,34 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
     e.preventDefault();
     setError(null);
 
-    console.log('💰 [DepositModal] Form submitted');
-    console.log('💰 [DepositModal] Input amount:', amount);
-    console.log('💰 [DepositModal] User address:', stxAddress);
-
     if (!stxAddress) {
-      console.error('❌ [DepositModal] No wallet address found');
       setError('Wallet not connected. Please connect your wallet first.');
       return;
     }
 
     const amountNum = parseFloat(amount);
     if (isNaN(amountNum) || amountNum <= 0) {
-      console.warn('⚠️ [DepositModal] Invalid amount entered');
       setError('Please enter a valid amount');
       return;
     }
 
     const amountMicroStx = Math.floor(amountNum * CONSTANTS.MICROSTX_PER_STX);
-    console.log('💰 [DepositModal] Converted to microSTX:', amountMicroStx);
 
     if (amountMicroStx < CONSTANTS.MIN_DEPOSIT_MICROSTX) {
-      console.warn('⚠️ [DepositModal] Amount below minimum:', {
-        amountMicroStx,
-        minimum: CONSTANTS.MIN_DEPOSIT_MICROSTX,
-      });
       setError(`Minimum deposit is ${formatSTX(CONSTANTS.MIN_DEPOSIT_MICROSTX)} STX`);
       return;
     }
 
     setIsSubmitting(true);
-    console.log('💰 [DepositModal] Validation passed, calling deposit...');
 
     try {
-      const result = await deposit(amountMicroStx, stxAddress);
-      console.log('✅ [DepositModal] Transaction initiated successfully!');
-      console.log('📦 [DepositModal] Transaction result:', result);
-
-      // Reset and close
+      await deposit(amountMicroStx, stxAddress);
       setAmount('');
       onClose();
-
-      console.log('✅ [DepositModal] Modal closed, deposit complete');
     } catch (err: any) {
-      console.error('❌ [DepositModal] Deposit failed with error:', err);
-      console.error('❌ [DepositModal] Error details:', {
-        message: err?.message,
-        code: err?.code,
-        name: err?.name,
-      });
       setError(err?.message || 'Failed to deposit. Please try again.');
     } finally {
       setIsSubmitting(false);
-      console.log('💰 [DepositModal] Submission process finished');
     }
   };
 
