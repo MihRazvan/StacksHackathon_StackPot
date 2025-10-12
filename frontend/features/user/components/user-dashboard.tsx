@@ -2,8 +2,9 @@
 
 import { useUserDashboard } from '../hooks/use-user-dashboard';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
+import { useWithdrawalEstimate } from '@/features/pool/hooks/use-withdrawal-estimate';
 import { formatSTX } from '@/lib/utils';
-import { Wallet, ArrowUpCircle, ArrowDownCircle, Trophy } from 'lucide-react';
+import { Wallet, ArrowUpCircle, ArrowDownCircle, Trophy, AlertCircle } from 'lucide-react';
 
 interface UserDashboardProps {
   onWithdraw?: () => void;
@@ -13,6 +14,7 @@ interface UserDashboardProps {
 export function UserDashboard({ onWithdraw, onDeposit }: UserDashboardProps) {
   const { stxAddress } = useWallet();
   const { data: userData, isLoading, error } = useUserDashboard(stxAddress);
+  const { data: withdrawalEstimate } = useWithdrawalEstimate(stxAddress);
 
   if (!stxAddress) {
     return null; // Don't show if not connected
@@ -114,6 +116,32 @@ export function UserDashboard({ onWithdraw, onDeposit }: UserDashboardProps) {
               <p className="text-cyber-teal text-center font-semibold">
                 Congratulations! You won the last draw!
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* Withdrawal Estimate Info */}
+        {!isLoading && withdrawalEstimate && Number(userData?.['balance']?.value ?? 0) > 0 && (
+          <div className="mt-4 p-4 flat-card-elevated">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-text-muted mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-text-primary font-semibold mb-2">Instant Withdrawal Available</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-small">
+                  <div>
+                    <span className="text-text-muted">You'll receive: </span>
+                    <span className="text-text-primary font-mono font-semibold">
+                      {formatSTX(Number(withdrawalEstimate?.['amount-after-fee']?.value ?? 0))} STX
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-text-muted">Instant withdrawal fee (1%): </span>
+                    <span className="text-text-primary font-mono font-semibold">
+                      {formatSTX(Number(withdrawalEstimate?.['fee-amount']?.value ?? 0))} STX
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

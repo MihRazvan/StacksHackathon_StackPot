@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { X, ArrowUpCircle } from 'lucide-react';
-import { withdraw, withdrawAll } from '@/lib/stacks/contracts';
+import { X, ArrowUpCircle, AlertCircle } from 'lucide-react';
+import { withdraw, withdrawAll, getInstantWithdrawalFee } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { useUserDashboard } from '@/features/user/hooks/use-user-dashboard';
+import { useWithdrawalEstimate } from '@/features/pool/hooks/use-withdrawal-estimate';
 import { formatSTX } from '@/lib/utils';
 import { CONSTANTS } from '@/lib/stacks/config';
 
@@ -16,12 +17,19 @@ interface WithdrawModalProps {
 export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
   const { stxAddress } = useWallet();
   const { data: userData } = useUserDashboard(stxAddress);
+  const { data: withdrawalEstimate } = useWithdrawalEstimate(stxAddress);
   const [amount, setAmount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const userBalance = Number(userData?.['balance']?.value ?? 0);
   const userBalanceSTX = userBalance / CONSTANTS.MICROSTX_PER_STX;
+
+  // Calculate fee for entered amount
+  const amountNum = parseFloat(amount) || 0;
+  const amountMicroStx = Math.floor(amountNum * CONSTANTS.MICROSTX_PER_STX);
+  const estimatedFee = getInstantWithdrawalFee(amountMicroStx);
+  const amountAfterFee = amountMicroStx - estimatedFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -199,10 +207,34 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
             ))}
           </div>
 
+          {/* Withdrawal Fee Info */}
+          {amountNum > 0 && (
+            <div className="p-4 bg-bg-elevated border border-border-subtle rounded-lg">
+              <div className="flex items-start gap-2 mb-3">
+                <AlertCircle className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
+                <p className="text-small text-text-primary font-semibold">Instant Withdrawal Breakdown</p>
+              </div>
+              <div className="space-y-2 text-small">
+                <div className="flex justify-between">
+                  <span className="text-text-muted">Withdrawal amount:</span>
+                  <span className="text-text-primary font-mono">{formatSTX(amountMicroStx)} STX</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-muted">Instant withdrawal fee (1%):</span>
+                  <span className="text-error-red font-mono">-{formatSTX(estimatedFee)} STX</span>
+                </div>
+                <div className="pt-2 border-t border-border-subtle flex justify-between">
+                  <span className="text-text-primary font-semibold">You'll receive:</span>
+                  <span className="text-cyber-teal font-mono font-bold">{formatSTX(amountAfterFee)} STX</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Info Box */}
           <div className="p-4 flat-card-elevated">
             <p className="text-small text-text-secondary">
-              Withdraw your STX from the pool. Your tickets and win probability will decrease proportionally.
+              Withdraw your STX from the pool instantly with a 1% fee. Your tickets and win probability will decrease proportionally.
             </p>
           </div>
 
