@@ -21,21 +21,21 @@ export function DepositPreview({ data, isLoading }: DepositPreviewProps) {
     return (
       <div className="space-y-3 animate-in fade-in duration-300">
         <div className="flex items-center gap-2 mb-3">
-          <TrendingUp className="w-4 h-4 text-royal-purple" />
-          <p className="text-small font-semibold text-soft-lavender">Odds Preview</p>
+          <TrendingUp className="w-4 h-4 text-cyber-teal" />
+          <p className="text-small font-semibold text-text-primary">Odds Preview</p>
         </div>
 
         {/* Loading Skeletons */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-3 bg-dark-purple border border-border-purple rounded-lg">
-            <div className="h-4 animated-gradient-purple rounded w-20 mb-2"></div>
-            <div className="h-6 animated-gradient-purple rounded w-16 mb-1"></div>
-            <div className="h-3 animated-gradient-purple rounded w-24"></div>
+          <div className="p-4 flat-card-elevated">
+            <div className="h-4 bg-bg-elevated animate-shimmer rounded w-20 mb-2"></div>
+            <div className="h-6 bg-bg-elevated animate-shimmer rounded w-16 mb-1"></div>
+            <div className="h-3 bg-bg-elevated animate-shimmer rounded w-24"></div>
           </div>
-          <div className="p-3 bg-dark-purple border border-border-purple rounded-lg">
-            <div className="h-4 animated-gradient-purple rounded w-24 mb-2"></div>
-            <div className="h-6 animated-gradient-purple rounded w-20 mb-1"></div>
-            <div className="h-3 animated-gradient-purple rounded w-28"></div>
+          <div className="p-4 flat-card-elevated">
+            <div className="h-4 bg-bg-elevated animate-shimmer rounded w-24 mb-2"></div>
+            <div className="h-6 bg-bg-elevated animate-shimmer rounded w-20 mb-1"></div>
+            <div className="h-3 bg-bg-elevated animate-shimmer rounded w-28"></div>
           </div>
         </div>
       </div>
@@ -54,38 +54,38 @@ export function DepositPreview({ data, isLoading }: DepositPreviewProps) {
     <div className="space-y-3 animate-in fade-in duration-300">
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
-        <TrendingUp className="w-4 h-4 text-royal-purple" />
-        <p className="text-small font-semibold text-soft-lavender">Odds Preview</p>
+        <TrendingUp className="w-4 h-4 text-cyber-teal" />
+        <p className="text-small font-semibold text-text-primary">Odds Preview</p>
       </div>
 
       {/* Current vs After Cards */}
       <div className="grid grid-cols-2 gap-3">
         {/* Current State */}
-        <div className="p-3 bg-royal-purple/10 border border-royal-purple/30 rounded-lg">
-          <p className="text-small text-purple-gray mb-2">Current Chance</p>
-          <p className="text-h2 text-soft-lavender font-bold font-mono">
+        <div className="p-4 flat-card-elevated">
+          <p className="text-small text-text-muted mb-2">Current Chance</p>
+          <p className="text-h2 text-text-primary font-bold font-mono">
             {currentPercent}%
           </p>
-          <p className="text-small text-purple-gray mt-1">
+          <p className="text-small text-text-muted mt-1">
             {formatTickets(data.currentTickets)} tickets
           </p>
         </div>
 
         {/* After Deposit */}
-        <div className="p-3 bg-electric-violet/10 border border-electric-violet/30 rounded-lg hover:purple-glow transition-all">
+        <div className="p-4 flat-card-elevated">
           <div className="flex items-center gap-1 mb-2">
-            <p className="text-small text-electric-violet font-semibold">After Deposit</p>
+            <p className="text-small text-cyber-teal font-semibold">After Deposit</p>
             {isIncrease && <ArrowUpRight className="w-3 h-3 text-success-green" />}
           </div>
           <div className="flex items-baseline gap-2">
-            <p className="text-h2 text-soft-lavender font-bold font-mono">
+            <p className="text-h2 text-text-primary font-bold font-mono">
               {newPercent}%
             </p>
-            <p className={`text-small font-semibold ${isIncrease ? 'text-success-green' : 'text-purple-gray'}`}>
+            <p className={`text-small font-semibold ${isIncrease ? 'text-success-green' : 'text-text-muted'}`}>
               {percentChange}
             </p>
           </div>
-          <p className="text-small text-purple-gray mt-1">
+          <p className="text-small text-text-muted mt-1">
             {formatTickets(data.newTickets)} tickets
             <span className="text-success-green ml-1">
               (+{formatTickets(data.ticketsAdded)})
@@ -95,12 +95,12 @@ export function DepositPreview({ data, isLoading }: DepositPreviewProps) {
       </div>
 
       {/* Pool Stats */}
-      <div className="p-2 bg-dark-purple/30 border border-border-purple/50 rounded-lg">
-        <p className="text-small text-purple-gray">
-          <span className="text-purple-gray">Pool tickets: </span>
-          <span className="text-soft-lavender font-mono">{formatTickets(data.currentTotalTickets)}</span>
-          <span className="text-purple-gray"> → </span>
-          <span className="text-soft-lavender font-mono">{formatTickets(data.newTotalTickets)}</span>
+      <div className="p-3 flat-card-elevated">
+        <p className="text-small text-text-muted">
+          <span className="text-text-muted">Pool tickets: </span>
+          <span className="text-text-primary font-mono">{formatTickets(data.currentTotalTickets)}</span>
+          <span className="text-text-muted"> → </span>
+          <span className="text-text-primary font-mono">{formatTickets(data.newTotalTickets)}</span>
         </p>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { WithdrawModal } from '@/features/pool/components/withdraw-modal';
 import { UserDashboard } from '@/features/user/components/user-dashboard';
 import { TriggerDrawCard } from '@/features/draw/components/trigger-draw-card';
 import { formatSTX, formatBTC } from '@/lib/utils';
-import { Bitcoin, Users, Clock, Trophy, Award } from 'lucide-react';
+import { Bitcoin, Trophy, Award } from 'lucide-react';
 
 export default function Home() {
   const { data: poolData, isLoading, error } = usePoolDashboard();
@@ -36,7 +36,7 @@ export default function Home() {
       <main className="min-h-screen mesh-background flex items-center justify-center">
         <div className="text-center">
           <p className="text-error-red text-h3 mb-4">Failed to load pool data</p>
-          <p className="text-warm-gray">{error.message}</p>
+          <p className="text-text-secondary">{error.message}</p>
         </div>
       </main>
     );
@@ -47,20 +47,20 @@ export default function Home() {
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <section className="text-center mb-16">
-          <h2 className="text-h1 text-soft-lavender mb-4">
-            Win Bitcoin. Keep Your STX.
+          <h2 className="text-h1 text-text-primary mb-4">
+            Win Bitcoin. <span className="text-cyber-teal">Keep Your STX.</span>
           </h2>
-          <p className="text-body text-purple-gray max-w-2xl mx-auto mb-8">
+          <p className="text-body text-text-secondary max-w-2xl mx-auto mb-8">
             The no-loss lottery on Stacks. Deposit STX, win BTC prizes from stacking yield, withdraw anytime.
           </p>
 
-          {/* Subtle Prize Pool Display */}
-          <div className="inline-flex items-center gap-4 glass-card px-8 py-4 rounded-xl purple-glow">
+          {/* Prize Pool Display */}
+          <div className="inline-flex items-center gap-4 flat-card p-8">
             <div className="p-3 bg-bitcoin-gold/20 rounded-lg">
               <Bitcoin className="w-8 h-8 text-bitcoin-gold" />
             </div>
             <div className="text-left">
-              <p className="text-purple-gray text-small uppercase tracking-wide font-semibold">Current Prize Pool</p>
+              <p className="text-text-muted text-small uppercase tracking-wide font-semibold">Current Prize Pool</p>
               <p className="text-h2 text-bitcoin-gold font-bold font-mono">
                 {isLoading ? '...' : formatBTC(10000000)} BTC
               </p>
@@ -79,45 +79,30 @@ export default function Home() {
         {/* Stats Grid */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {/* Total Pool */}
-          <div className="bg-dark-purple border border-border-purple p-6 rounded-xl hover:border-electric-violet hover:purple-glow transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-royal-purple/20 rounded-lg">
-                <Bitcoin className="w-6 h-6 text-royal-purple" />
-              </div>
-              <h3 className="text-h3 text-soft-lavender">Total Pool</h3>
-            </div>
-            <p className="text-h2 text-soft-lavender font-mono">
+          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
+            <h3 className="text-body text-text-muted mb-2">Total Pool</h3>
+            <p className="text-h2 text-text-primary font-mono">
               {isLoading ? '...' : formatSTX(Number(poolData?.['total-pool-balance']?.value ?? 0))}
             </p>
-            <p className="text-small text-purple-gray mt-1">STX Deposited</p>
+            <p className="text-small text-text-muted mt-1">STX Deposited</p>
           </div>
 
           {/* Participants */}
-          <div className="bg-dark-purple border border-border-purple p-6 rounded-xl hover:border-electric-violet hover:purple-glow transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-electric-violet/20 rounded-lg">
-                <Users className="w-6 h-6 text-electric-violet" />
-              </div>
-              <h3 className="text-h3 text-soft-lavender">Participants</h3>
-            </div>
-            <p className="text-h2 text-soft-lavender font-mono">
+          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
+            <h3 className="text-body text-text-muted mb-2">Participants</h3>
+            <p className="text-h2 text-text-primary font-mono">
               {isLoading ? '...' : (poolData?.['total-participants']?.value ?? '0')}
             </p>
-            <p className="text-small text-purple-gray mt-1">Active Players</p>
+            <p className="text-small text-text-muted mt-1">Active Players</p>
           </div>
 
           {/* Next Draw */}
-          <div className="bg-dark-purple border border-border-purple p-6 rounded-xl hover:border-electric-violet hover:purple-glow transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-bright-purple/20 rounded-lg">
-                <Clock className="w-6 h-6 text-bright-purple" />
-              </div>
-              <h3 className="text-h3 text-soft-lavender">Next Draw</h3>
-            </div>
-            <p className="text-h2 text-soft-lavender font-mono">
+          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
+            <h3 className="text-body text-text-muted mb-2">Next Draw</h3>
+            <p className="text-h2 text-text-primary font-mono">
               {isLoading ? '...' : poolData?.['blocks-until-next-draw']?.value ?? '0'}
             </p>
-            <p className="text-small text-purple-gray mt-1">Bitcoin Blocks (~{isLoading ? '...' : Math.floor(Number(poolData?.['blocks-until-next-draw']?.value ?? 0) * 10)} min)</p>
+            <p className="text-small text-text-muted mt-1">Bitcoin Blocks (~{isLoading ? '...' : Math.floor(Number(poolData?.['blocks-until-next-draw']?.value ?? 0) * 10)} min)</p>
           </div>
         </section>
 
@@ -134,9 +119,9 @@ export default function Home() {
 
         {/* CTA Section */}
         <section className="text-center mb-12">
-          <div className="glass-card p-8 rounded-xl max-w-2xl mx-auto">
-            <h3 className="text-h2 text-soft-lavender mb-4">Ready to Play?</h3>
-            <p className="text-body text-purple-gray mb-6">
+          <div className="flat-card p-8 max-w-2xl mx-auto">
+            <h3 className="text-h2 text-text-primary mb-4">Ready to Play?</h3>
+            <p className="text-body text-text-secondary mb-6">
               {isConnected
                 ? 'Deposit STX and start playing. Your principal is always safe—withdraw anytime.'
                 : 'Connect your wallet to deposit STX and start playing. Your principal is always safe—withdraw anytime.'
@@ -145,17 +130,17 @@ export default function Home() {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={() => setIsDepositModalOpen(true)}
-                className="px-8 py-4 bg-hero-gradient text-soft-lavender font-semibold rounded-lg hover:opacity-90 hover:purple-glow transition-all disabled:opacity-50"
+                className="px-8 py-4 bg-cyber-teal text-bg-main font-semibold rounded-lg hover:bg-teal-hover hover:teal-glow transition-all disabled:opacity-50"
                 disabled={!isConnected}
               >
                 Deposit STX
               </button>
-              <button className="px-8 py-4 bg-dark-purple border border-border-purple text-soft-lavender font-semibold rounded-lg hover:border-electric-violet transition-colors">
+              <button className="px-8 py-4 flat-card text-text-primary font-semibold hover:border-cyber-teal transition-colors">
                 Learn More
               </button>
             </div>
             {!isConnected && (
-              <p className="text-small text-purple-gray mt-4">
+              <p className="text-small text-text-muted mt-4">
                 Connect your wallet to enable deposits
               </p>
             )}
@@ -174,27 +159,27 @@ export default function Home() {
           onClose={() => setIsWithdrawModalOpen(false)}
         />
 
-        {/* Last Winner - Kleros Style */}
+        {/* Last Winner */}
         {!isLoading && poolData && Number(poolData?.['current-draw-id']?.value ?? 0) > 0 && (
           <section className="mt-12">
-            <div className="max-w-2xl mx-auto overflow-hidden rounded-xl border border-border-purple purple-glow">
-              {/* Kleros-Style Header */}
-              <div className="case-card-gradient p-4">
+            <div className="max-w-2xl mx-auto flat-card overflow-hidden">
+              {/* Header */}
+              <div className="bg-bg-elevated p-6 border-b border-border-subtle">
                 <div className="flex items-center justify-center gap-3">
                   <Trophy className="w-6 h-6 text-bitcoin-gold" />
-                  <h3 className="text-h3 text-soft-lavender font-bold">Last Winner</h3>
+                  <h3 className="text-h3 text-text-primary font-bold">Last Winner</h3>
                 </div>
               </div>
 
               {/* Winner Content */}
-              <div className="bg-dark-purple p-6">
+              <div className="p-8">
                 {poolData['last-draw-info']?.value?.value ? (
                   <>
                     {/* Winner Address with Award Badge */}
-                    <div className="reward-badge p-4 rounded-lg mb-6">
+                    <div className="bitcoin-accent-card p-6 mb-6">
                       <div className="flex items-center justify-center gap-3 mb-2">
                         <Award className="w-5 h-5 text-bitcoin-gold" />
-                        <p className="text-mono text-soft-lavender text-body font-semibold">
+                        <p className="text-mono text-text-primary text-body font-semibold">
                           {String(poolData['last-draw-info']?.value?.value?.winner?.value?.value ?? poolData['last-draw-info']?.value?.value?.winner?.value ?? 'No winner selected')}
                         </p>
                       </div>
@@ -205,34 +190,34 @@ export default function Home() {
 
                     {/* Draw Details Grid */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="p-3 bg-royal-purple/10 border border-border-purple rounded-lg">
-                        <p className="text-purple-gray text-small mb-1">Draw Block</p>
-                        <p className="text-soft-lavender font-mono font-semibold">
+                      <div className="p-4 flat-card-elevated">
+                        <p className="text-text-muted text-small mb-1">Draw Block</p>
+                        <p className="text-text-primary font-mono font-semibold">
                           {String(poolData['last-draw-info']?.value?.value?.['draw-block']?.value ?? 'N/A')}
                         </p>
                       </div>
-                      <div className="p-3 bg-royal-purple/10 border border-border-purple rounded-lg">
-                        <p className="text-purple-gray text-small mb-1">Participants</p>
-                        <p className="text-soft-lavender font-mono font-semibold">
+                      <div className="p-4 flat-card-elevated">
+                        <p className="text-text-muted text-small mb-1">Participants</p>
+                        <p className="text-text-primary font-mono font-semibold">
                           {String(poolData['last-draw-info']?.value?.value?.['participants-count']?.value ?? '0')}
                         </p>
                       </div>
-                      <div className="p-3 bg-royal-purple/10 border border-border-purple rounded-lg">
-                        <p className="text-purple-gray text-small mb-1">Winner Balance</p>
-                        <p className="text-soft-lavender font-mono font-semibold">
+                      <div className="p-4 flat-card-elevated">
+                        <p className="text-text-muted text-small mb-1">Winner Balance</p>
+                        <p className="text-text-primary font-mono font-semibold">
                           {formatSTX(Number(poolData['last-draw-info']?.value?.value?.['winner-balance']?.value ?? 0))} STX
                         </p>
                       </div>
-                      <div className="p-3 bg-royal-purple/10 border border-border-purple rounded-lg">
-                        <p className="text-purple-gray text-small mb-1">Prize Claimed</p>
-                        <p className={`font-mono font-semibold ${poolData['last-draw-info']?.value?.value?.claimed?.value ? 'text-success-green' : 'text-purple-gray'}`}>
+                      <div className="p-4 flat-card-elevated">
+                        <p className="text-text-muted text-small mb-1">Prize Claimed</p>
+                        <p className={`font-mono font-semibold ${poolData['last-draw-info']?.value?.value?.claimed?.value ? 'text-success-green' : 'text-text-muted'}`}>
                           {poolData['last-draw-info']?.value?.value?.claimed?.value ? 'Yes' : 'No'}
                         </p>
                       </div>
                     </div>
                   </>
                 ) : (
-                  <p className="text-purple-gray text-center py-4">
+                  <p className="text-text-secondary text-center py-4">
                     Draw has been triggered. Waiting for winner data to load...
                   </p>
                 )}

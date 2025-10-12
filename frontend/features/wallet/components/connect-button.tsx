@@ -22,16 +22,14 @@ export function ConnectButton() {
   return (
     <button
       onClick={handleClick}
-      className="px-6 py-3 bg-hero-gradient text-soft-lavender font-semibold rounded-lg hover:opacity-90 hover:purple-glow transition-all flex items-center gap-2"
+      className="px-6 py-3 bg-cyber-teal text-bg-main font-semibold rounded-lg hover:bg-teal-hover transition-all flex items-center gap-2"
     >
       {isConnected && stxAddress ? (
         <>
-          <LogOut className="w-4 h-4" />
           <span>{shortenAddress(stxAddress)}</span>
         </>
       ) : (
         <>
-          <Wallet className="w-4 h-4" />
           <span>Connect Wallet</span>
         </>
       )}
