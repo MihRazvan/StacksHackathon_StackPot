@@ -200,3 +200,18 @@ export async function getCurrentDrawInfo() {
 
   return cvToValue(result);
 }
+
+export async function getDrawInfo(drawId: number) {
+  const { address, name } = getContractParts(CONTRACTS.PRIZE_DISTRIBUTOR);
+
+  const result = await fetchCallReadOnlyFunction({
+    contractAddress: address,
+    contractName: name,
+    functionName: 'get-draw-info',
+    functionArgs: [uintCV(drawId)],
+    network: NETWORK,
+    senderAddress: address,
+  });
+
+  return cvToValue(result);
+}
