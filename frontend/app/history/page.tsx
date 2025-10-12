@@ -150,7 +150,7 @@ export default function HistoryPage() {
               <Trophy className="w-16 h-16 text-text-muted mx-auto mb-4" />
               <h3 className="text-h3 text-text-primary mb-2">No Draws Yet</h3>
               <p className="text-body text-text-secondary">
-                The first draw hasn't happened yet. Check back soon!
+                The first draw hasn&apos;t happened yet. Check back soon!
               </p>
             </div>
           ) : (
