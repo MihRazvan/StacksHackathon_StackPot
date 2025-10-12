@@ -38,3 +38,22 @@ export function microStxToStx(microStx: number): number {
 export function stxToMicroStx(stx: number): number {
   return Math.floor(stx * CONSTANTS.MICROSTX_PER_STX);
 }
+
+export function formatPercentage(basisPoints: number): string {
+  return (basisPoints / 100).toFixed(2);
+}
+
+export function formatPercentageChange(currentBasisPoints: number, newBasisPoints: number): string {
+  const currentPercent = currentBasisPoints / 100;
+  const newPercent = newBasisPoints / 100;
+  const change = newPercent - currentPercent;
+  const sign = change > 0 ? '+' : '';
+  return `${sign}${change.toFixed(2)}%`;
+}
+
+export function formatTickets(microStx: number | bigint): string {
+  // Format with commas for readability
+  return Number(microStx).toLocaleString('en-US', {
+    maximumFractionDigits: 0
+  });
+}

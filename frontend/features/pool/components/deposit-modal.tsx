@@ -6,6 +6,8 @@ import { deposit } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
 import { formatSTX } from '@/lib/utils';
 import { CONSTANTS } from '@/lib/stacks/config';
+import { useDepositPreview } from '../hooks/use-deposit-preview';
+import { DepositPreview } from './deposit-preview';
 
 interface DepositModalProps {
   isOpen: boolean;
@@ -17,6 +19,9 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
   const [amount, setAmount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Get deposit preview data
+  const preview = useDepositPreview(stxAddress, amount);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,6 +142,20 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
               </button>
             ))}
           </div>
+
+          {/* Deposit Preview - Odds Calculator */}
+          {preview.shouldShow && preview.data && (
+            <DepositPreview data={preview.data} isLoading={preview.isLoading} />
+          )}
+
+          {/* Show message if amount is too low */}
+          {preview.isValidAmount && !preview.meetsMinimum && (
+            <div className="p-3 bg-royal-purple/10 border border-royal-purple/30 rounded-lg">
+              <p className="text-small text-purple-gray text-center">
+                Enter at least {formatSTX(CONSTANTS.MIN_DEPOSIT_MICROSTX)} STX to preview odds
+              </p>
+            </div>
+          )}
 
           {/* Info Box */}
           <div className="p-4 bg-royal-purple/10 border border-royal-purple/30 rounded-lg">
