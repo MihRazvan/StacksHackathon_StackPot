@@ -2,6 +2,7 @@
 
 import { useWallet } from '../hooks/use-wallet';
 import { shortenAddress } from '@/lib/utils';
+import { Wallet, LogOut } from 'lucide-react';
 
 export function ConnectButton() {
   const { isConnected, stxAddress, connect, disconnect } = useWallet();
@@ -21,11 +22,19 @@ export function ConnectButton() {
   return (
     <button
       onClick={handleClick}
-      className="px-6 py-3 bg-hero-gradient text-soft-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
+      className="px-6 py-3 bg-hero-gradient text-soft-lavender font-semibold rounded-lg hover:opacity-90 hover:purple-glow transition-all flex items-center gap-2"
     >
-      {isConnected && stxAddress
-        ? shortenAddress(stxAddress)
-        : 'Connect Wallet'}
+      {isConnected && stxAddress ? (
+        <>
+          <LogOut className="w-4 h-4" />
+          <span>{shortenAddress(stxAddress)}</span>
+        </>
+      ) : (
+        <>
+          <Wallet className="w-4 h-4" />
+          <span>Connect Wallet</span>
+        </>
+      )}
     </button>
   );
 }

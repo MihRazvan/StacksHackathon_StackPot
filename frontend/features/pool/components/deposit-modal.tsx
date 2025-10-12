@@ -85,22 +85,22 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/80 backdrop-blur-sm">
-      <div className="glass-card p-6 rounded-xl max-w-md w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deep-navy/90 backdrop-blur-lg">
+      <div className="glass-card p-6 rounded-xl max-w-md w-full purple-glow-strong">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-electric-violet/20 rounded-lg">
-              <ArrowDownCircle className="w-6 h-6 text-electric-violet" />
+            <div className="p-2 bg-royal-purple/20 rounded-lg">
+              <ArrowDownCircle className="w-6 h-6 text-royal-purple" />
             </div>
-            <h2 className="text-h2 text-soft-white">Deposit STX</h2>
+            <h2 className="text-h2 text-soft-lavender">Deposit STX</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-gray/50 rounded-lg transition-colors"
+            className="p-2 hover:bg-dark-purple/50 rounded-lg transition-colors"
             disabled={isSubmitting}
           >
-            <X className="w-5 h-5 text-warm-gray" />
+            <X className="w-5 h-5 text-purple-gray" />
           </button>
         </div>
 
@@ -108,7 +108,7 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Amount Input */}
           <div>
-            <label className="block text-small text-warm-gray mb-2">
+            <label className="block text-small text-purple-gray mb-2">
               Amount (STX)
             </label>
             <input
@@ -118,7 +118,7 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
               placeholder="0.00"
               step="0.000001"
               min="0"
-              className="w-full px-4 py-3 bg-slate-gray/50 border border-border-gray rounded-lg text-soft-white placeholder-warm-gray focus:outline-none focus:border-electric-violet transition-colors"
+              className="w-full px-4 py-3 bg-dark-purple/50 border border-border-purple rounded-lg text-soft-lavender placeholder-purple-gray focus:outline-none focus:border-royal-purple focus:purple-glow transition-all"
               disabled={isSubmitting}
             />
           </div>
@@ -130,7 +130,7 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
                 key={value}
                 type="button"
                 onClick={() => handleQuickAmount(value)}
-                className="flex-1 px-3 py-2 bg-slate-gray/50 hover:bg-slate-gray border border-border-gray rounded-lg text-soft-white text-small transition-colors"
+                className="flex-1 px-3 py-2 bg-royal-purple/10 hover:bg-royal-purple/20 border border-royal-purple/30 hover:border-royal-purple rounded-lg text-soft-lavender text-small transition-all"
                 disabled={isSubmitting}
               >
                 {value} STX
@@ -139,8 +139,8 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
           </div>
 
           {/* Info Box */}
-          <div className="p-4 bg-electric-violet/10 border border-electric-violet/20 rounded-lg">
-            <p className="text-small text-warm-gray">
+          <div className="p-4 bg-royal-purple/10 border border-royal-purple/30 rounded-lg">
+            <p className="text-small text-purple-gray">
               Your STX will be deposited into the pool. You can withdraw at any time with no loss.
               You'll earn tickets based on your deposit amount and duration.
             </p>
@@ -157,7 +157,7 @@ export function DepositModal({ isOpen, onClose }: DepositModalProps) {
           <button
             type="submit"
             disabled={isSubmitting || !amount}
-            className="w-full px-6 py-3 bg-hero-gradient text-soft-white font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-6 py-3 bg-hero-gradient text-soft-lavender font-semibold rounded-lg hover:opacity-90 hover:purple-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Processing...' : 'Deposit STX'}
           </button>

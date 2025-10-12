@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="antialiased">
         <Providers>
-          <nav className="border-b border-border-gray bg-charcoal/80 backdrop-blur-xl">
+          <nav className="border-b border-border-purple bg-dark-purple/80 backdrop-blur-xl">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <span className="text-h3 bg-hero-gradient bg-clip-text text-transparent font-bold">

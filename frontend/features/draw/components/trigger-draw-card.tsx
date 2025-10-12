@@ -78,15 +78,15 @@ export function TriggerDrawCard({
 
   return (
     <section className="mb-12">
-      <div className="glass-card p-6 rounded-xl max-w-2xl mx-auto">
+      <div className="bg-dark-purple border border-border-purple p-6 rounded-xl max-w-2xl mx-auto purple-glow">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-bitcoin-gold/20 rounded-lg">
-              <Zap className="w-6 h-6 text-bitcoin-gold" />
+            <div className="p-2 bg-royal-purple/20 rounded-lg">
+              <Zap className="w-6 h-6 text-royal-purple" />
             </div>
             <div>
-              <h2 className="text-h2 text-soft-white">Lottery Draw #{currentDrawId + 1}</h2>
-              <p className="text-small text-warm-gray">
+              <h2 className="text-h2 text-soft-lavender">Lottery Draw #{currentDrawId + 1}</h2>
+              <p className="text-small text-purple-gray">
                 {totalParticipants} participant{totalParticipants !== 1 ? 's' : ''} in pool
               </p>
             </div>
@@ -96,23 +96,23 @@ export function TriggerDrawCard({
         {/* Draw Status */}
         <div className="mb-6">
           {canDrawNow ? (
-            <div className="p-4 bg-success-green/10 border border-success-green/20 rounded-lg">
+            <div className="p-4 bg-success-green/10 border border-success-green/20 rounded-lg animate-pulse-glow">
               <div className="flex items-center gap-2 mb-2">
                 <Zap className="w-5 h-5 text-success-green" />
                 <p className="text-success-green font-semibold">Draw Ready!</p>
               </div>
-              <p className="text-small text-warm-gray">
+              <p className="text-small text-purple-gray">
                 The lottery is ready to draw a winner. Anyone can trigger the draw.
               </p>
             </div>
           ) : (
-            <div className="p-4 bg-warm-gray/10 border border-warm-gray/20 rounded-lg">
+            <div className="p-4 bg-royal-purple/10 border border-royal-purple/20 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-5 h-5 text-warm-gray" />
-                <p className="text-warm-gray font-semibold">Draw Countdown</p>
+                <Clock className="w-5 h-5 text-royal-purple" />
+                <p className="text-royal-purple font-semibold">Draw Countdown</p>
               </div>
-              <p className="text-small text-warm-gray">
-                Next draw available in <span className="text-soft-white font-mono">{blocksUntilNextDraw}</span> Bitcoin blocks
+              <p className="text-small text-purple-gray">
+                Next draw available in <span className="text-soft-lavender font-mono">{blocksUntilNextDraw}</span> Bitcoin blocks
                 {estimatedMinutes > 0 && ` (${timeDisplay})`}
               </p>
             </div>
@@ -123,7 +123,7 @@ export function TriggerDrawCard({
         {success && (
           <div className="mb-4 p-4 bg-success-green/10 border border-success-green/20 rounded-lg">
             <p className="text-success-green text-center font-semibold">
-              🎉 Draw triggered successfully! Check back soon to see the winner.
+              Draw triggered successfully! Check back soon to see the winner.
             </p>
           </div>
         )}
@@ -139,7 +139,7 @@ export function TriggerDrawCard({
         <button
           onClick={handleTriggerDraw}
           disabled={!canDrawNow || isSubmitting || isLoading || totalParticipants === 0}
-          className="w-full px-8 py-4 bg-hero-gradient text-soft-white font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-8 py-4 bg-hero-gradient text-soft-lavender font-semibold rounded-lg hover:opacity-90 hover:purple-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
@@ -155,13 +155,13 @@ export function TriggerDrawCard({
         </button>
 
         {!canDrawNow && totalParticipants > 0 && (
-          <p className="text-center text-small text-warm-gray mt-3">
+          <p className="text-center text-small text-purple-gray mt-3">
             Button will be enabled when the draw is ready
           </p>
         )}
 
         {totalParticipants === 0 && (
-          <p className="text-center text-small text-warm-gray mt-3">
+          <p className="text-center text-small text-purple-gray mt-3">
             Pool needs at least one participant to trigger a draw
           </p>
         )}
