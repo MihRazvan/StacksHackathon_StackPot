@@ -11,8 +11,6 @@ import { CONTRACTS, NETWORK, getContractParts } from './config';
 // ===== WRITE FUNCTIONS (require wallet signature) =====
 
 export async function deposit(amountMicroStx: number, userAddress: string) {
-  console.log('💰 [deposit] Initiating deposit contract call:', { amountMicroStx, userAddress });
-
   // With v3 contracts, the deposit flow involves multiple transfers:
   // 1. User -> pool-manager-v3
   // 2. pool-manager-v3 -> stacking-adapter-v3
@@ -26,8 +24,6 @@ export async function deposit(amountMicroStx: number, userAddress: string) {
 }
 
 export async function withdraw(amountMicroStx: number, userAddress: string) {
-  console.log('💸 [withdraw] Initiating withdraw contract call:', { amountMicroStx, userAddress });
-
   // For withdrawals, the contract sends STX to the user
   // We need to set post-condition mode to 'allow' to permit the contract transfer
   return await request('stx_callContract', {
@@ -39,8 +35,6 @@ export async function withdraw(amountMicroStx: number, userAddress: string) {
 }
 
 export async function withdrawAll(userAddress: string) {
-  console.log('💸 [withdrawAll] Initiating withdraw-all contract call:', { userAddress });
-
   // For withdraw-all, we need to set post-condition mode to 'allow'
   return await request('stx_callContract', {
     contract: CONTRACTS.POOL_MANAGER,
@@ -51,8 +45,6 @@ export async function withdrawAll(userAddress: string) {
 }
 
 export async function triggerDraw() {
-  console.log('🎰 [triggerDraw] Initiating trigger-draw contract call');
-
   // Trigger draw may transfer STX to winner, so use 'allow' mode
   return await request('stx_callContract', {
     contract: CONTRACTS.PRIZE_DISTRIBUTOR,
@@ -63,8 +55,6 @@ export async function triggerDraw() {
 }
 
 export async function claimPrize(drawId: number) {
-  console.log('🎁 [claimPrize] Initiating claim-prize contract call:', { drawId });
-
   return await request('stx_callContract', {
     contract: CONTRACTS.PRIZE_DISTRIBUTOR,
     functionName: 'claim-prize',

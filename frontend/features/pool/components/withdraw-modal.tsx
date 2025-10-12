@@ -35,105 +35,60 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
     e.preventDefault();
     setError(null);
 
-    console.log('💸 [WithdrawModal] Form submitted');
-    console.log('💸 [WithdrawModal] Input amount:', amount);
-    console.log('💸 [WithdrawModal] User address:', stxAddress);
-    console.log('💸 [WithdrawModal] User balance:', userBalance);
-
     if (!stxAddress) {
-      console.error('❌ [WithdrawModal] No wallet address found');
       setError('Wallet not connected. Please connect your wallet first.');
       return;
     }
 
     const amountNum = parseFloat(amount);
     if (isNaN(amountNum) || amountNum <= 0) {
-      console.warn('⚠️ [WithdrawModal] Invalid amount entered');
       setError('Please enter a valid amount');
       return;
     }
 
     const amountMicroStx = Math.floor(amountNum * CONSTANTS.MICROSTX_PER_STX);
-    console.log('💸 [WithdrawModal] Converted to microSTX:', amountMicroStx);
 
     if (amountMicroStx > userBalance) {
-      console.warn('⚠️ [WithdrawModal] Amount exceeds balance:', {
-        amountMicroStx,
-        userBalance,
-      });
       setError(`Insufficient balance. You can withdraw up to ${formatSTX(userBalance)} STX`);
       return;
     }
 
     setIsSubmitting(true);
-    console.log('💸 [WithdrawModal] Validation passed, calling withdraw...');
 
     try {
-      const result = await withdraw(amountMicroStx, stxAddress);
-      console.log('✅ [WithdrawModal] Transaction initiated successfully!');
-      console.log('📦 [WithdrawModal] Transaction result:', result);
-
-      // Reset and close
+      await withdraw(amountMicroStx, stxAddress);
       setAmount('');
       onClose();
-
-      console.log('✅ [WithdrawModal] Modal closed, withdraw complete');
     } catch (err: any) {
-      console.error('❌ [WithdrawModal] Withdraw failed with error:', err);
-      console.error('❌ [WithdrawModal] Error details:', {
-        message: err?.message,
-        code: err?.code,
-        name: err?.name,
-      });
       setError(err?.message || 'Failed to withdraw. Please try again.');
     } finally {
       setIsSubmitting(false);
-      console.log('💸 [WithdrawModal] Submission process finished');
     }
   };
 
   const handleWithdrawAll = async () => {
     setError(null);
 
-    console.log('💸 [WithdrawModal] Withdraw All clicked');
-    console.log('💸 [WithdrawModal] User balance:', userBalance);
-
     if (!stxAddress) {
-      console.error('❌ [WithdrawModal] No wallet address found');
       setError('Wallet not connected. Please connect your wallet first.');
       return;
     }
 
     if (userBalance === 0) {
-      console.warn('⚠️ [WithdrawModal] No balance to withdraw');
       setError('You have no balance to withdraw');
       return;
     }
 
     setIsSubmitting(true);
-    console.log('💸 [WithdrawModal] Calling withdraw-all...');
 
     try {
-      const result = await withdrawAll(stxAddress);
-      console.log('✅ [WithdrawModal] Withdraw-all transaction initiated successfully!');
-      console.log('📦 [WithdrawModal] Transaction result:', result);
-
-      // Reset and close
+      await withdrawAll(stxAddress);
       setAmount('');
       onClose();
-
-      console.log('✅ [WithdrawModal] Modal closed, withdraw-all complete');
     } catch (err: any) {
-      console.error('❌ [WithdrawModal] Withdraw-all failed with error:', err);
-      console.error('❌ [WithdrawModal] Error details:', {
-        message: err?.message,
-        code: err?.code,
-        name: err?.name,
-      });
       setError(err?.message || 'Failed to withdraw. Please try again.');
     } finally {
       setIsSubmitting(false);
-      console.log('💸 [WithdrawModal] Withdraw-all process finished');
     }
   };
 

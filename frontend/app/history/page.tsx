@@ -3,8 +3,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPoolDashboard, getUserDashboard, getDrawInfo } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
-import { Trophy, History as HistoryIcon, TrendingUp, Users, Award, Calendar } from 'lucide-react';
-import { formatBTC, formatSTX, shortenAddress } from '@/lib/utils';
+import { Trophy, History as HistoryIcon, TrendingUp, Award, Calendar } from 'lucide-react';
+import { formatSTX, shortenAddress } from '@/lib/utils';
 
 export default function HistoryPage() {
   const { stxAddress, isConnected } = useWallet();
@@ -209,8 +209,9 @@ export default function HistoryPage() {
                         <div className="p-4 bitcoin-accent-card">
                           <p className="text-small text-text-muted mb-1">Prize</p>
                           <p className="text-body text-bitcoin-gold font-bold font-mono">
-                            {formatBTC(prizeAmount)} BTC
+                            {formatSTX(prizeAmount)} STX
                           </p>
+                          <p className="text-small text-text-muted mt-1">From BTC yield</p>
                         </div>
 
                         <div className="p-4 flat-card-elevated">

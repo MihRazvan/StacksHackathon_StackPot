@@ -131,13 +131,13 @@ export function UserDashboard({ onWithdraw, onDeposit }: UserDashboardProps) {
                   <div>
                     <span className="text-text-muted">You'll receive: </span>
                     <span className="text-text-primary font-mono font-semibold">
-                      {formatSTX(Number(withdrawalEstimate?.['amount-after-fee']?.value ?? 0))} STX
+                      {formatSTX(Number(withdrawalEstimate?.['amount-after-fee'] ?? 0))} STX
                     </span>
                   </div>
                   <div>
                     <span className="text-text-muted">Instant withdrawal fee (1%): </span>
                     <span className="text-text-primary font-mono font-semibold">
-                      {formatSTX(Number(withdrawalEstimate?.['fee-amount']?.value ?? 0))} STX
+                      {formatSTX(Number(withdrawalEstimate?.['fee-amount'] ?? 0))} STX
                     </span>
                   </div>
                 </div>

@@ -8,10 +8,11 @@ export function usePoolYield() {
     queryKey: ['pool-yield'],
     queryFn: async () => {
       const result = await getPoolYield();
-      if (result && result.value !== undefined) {
-        return result.value;
+      // Extract yield-accumulated from the tuple
+      if (result && result.value && result.value['yield-accumulated']) {
+        return result.value['yield-accumulated'].value;
       }
-      return result;
+      return 0;
     },
     refetchInterval: 10000, // Poll every 10 seconds
   });
@@ -36,10 +37,11 @@ export function useContractStSTXValue() {
     queryKey: ['contract-ststx-value'],
     queryFn: async () => {
       const result = await getContractStSTXValue();
-      if (result && result.value !== undefined) {
-        return result.value;
+      // Extract stx-value from the tuple
+      if (result && result.value && result.value['stx-value']) {
+        return result.value['stx-value'].value;
       }
-      return result;
+      return 0;
     },
     refetchInterval: 10000, // Poll every 10 seconds
   });
