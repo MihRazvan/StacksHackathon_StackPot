@@ -137,29 +137,29 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deep-navy/90 backdrop-blur-lg">
-      <div className="glass-card p-6 rounded-xl max-w-md w-full purple-glow-strong">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-main/90 backdrop-blur-lg">
+      <div className="flat-card p-8 max-w-md w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-electric-violet/20 rounded-lg">
-              <ArrowUpCircle className="w-6 h-6 text-electric-violet" />
+            <div className="p-2 bg-cyber-teal/20 rounded-lg">
+              <ArrowUpCircle className="w-6 h-6 text-cyber-teal" />
             </div>
-            <h2 className="text-h2 text-soft-lavender">Withdraw STX</h2>
+            <h2 className="text-h2 text-text-primary">Withdraw STX</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-dark-purple/50 rounded-lg transition-colors"
+            className="p-2 hover:bg-bg-elevated rounded-lg transition-colors"
             disabled={isSubmitting}
           >
-            <X className="w-5 h-5 text-purple-gray" />
+            <X className="w-5 h-5 text-text-secondary" />
           </button>
         </div>
 
         {/* Available Balance */}
-        <div className="mb-4 p-4 bg-royal-purple/10 border border-royal-purple/30 rounded-lg">
-          <p className="text-small text-purple-gray mb-1">Available Balance</p>
-          <p className="text-h2 text-soft-lavender font-mono">
+        <div className="mb-4 p-4 teal-accent-card">
+          <p className="text-small text-text-muted mb-1">Available Balance</p>
+          <p className="text-h2 text-text-primary font-mono">
             {formatSTX(userBalance)} STX
           </p>
         </div>
@@ -168,7 +168,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Amount Input */}
           <div>
-            <label className="block text-small text-purple-gray mb-2">
+            <label className="block text-small text-text-muted mb-2">
               Amount (STX)
             </label>
             <input
@@ -179,7 +179,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
               step="0.000001"
               min="0"
               max={userBalanceSTX}
-              className="w-full px-4 py-3 bg-dark-purple/50 border border-border-purple rounded-lg text-soft-lavender placeholder-purple-gray focus:outline-none focus:border-electric-violet focus:purple-glow transition-all"
+              className="w-full px-4 py-3 bg-bg-elevated border border-border-subtle rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-cyber-teal transition-all"
               disabled={isSubmitting}
             />
           </div>
@@ -191,7 +191,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
                 key={percentage}
                 type="button"
                 onClick={() => handleQuickAmount(percentage)}
-                className="flex-1 px-3 py-2 bg-electric-violet/10 hover:bg-electric-violet/20 border border-electric-violet/30 hover:border-electric-violet rounded-lg text-soft-lavender text-small transition-all"
+                className="flex-1 px-3 py-2 flat-card-elevated hover:border-cyber-teal text-text-primary text-small transition-all"
                 disabled={isSubmitting || userBalance === 0}
               >
                 {percentage}%
@@ -200,8 +200,8 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
           </div>
 
           {/* Info Box */}
-          <div className="p-4 bg-electric-violet/10 border border-electric-violet/30 rounded-lg">
-            <p className="text-small text-purple-gray">
+          <div className="p-4 flat-card-elevated">
+            <p className="text-small text-text-secondary">
               Withdraw your STX from the pool. Your tickets and win probability will decrease proportionally.
             </p>
           </div>
@@ -218,7 +218,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
             <button
               type="submit"
               disabled={isSubmitting || !amount || userBalance === 0}
-              className="flex-1 px-6 py-3 bg-hero-gradient hover:opacity-90 hover:purple-glow text-soft-lavender font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-cyber-teal text-bg-main hover:bg-teal-hover font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Processing...' : 'Withdraw'}
             </button>
@@ -226,7 +226,7 @@ export function WithdrawModal({ isOpen, onClose }: WithdrawModalProps) {
               type="button"
               onClick={handleWithdrawAll}
               disabled={isSubmitting || userBalance === 0}
-              className="flex-1 px-6 py-3 bg-dark-purple border border-border-purple hover:border-electric-violet text-soft-lavender font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 flat-card hover:border-cyber-teal text-text-primary font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Withdraw All
             </button>
