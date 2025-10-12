@@ -65,29 +65,37 @@
       (let (
         (winner-result (try! (select-winner-weighted total-shares participant-count current-block)))
         (draw-id (var-get current-draw-id))
-        (prize-amount SIMULATED-PRIZE-PER-DRAW)
+        ;; Calculate real prize from accumulated stacking yield
+        (yield-data (unwrap-panic (contract-call? .pool-manager get-pool-yield)))
+        (prize-amount (get yield-accumulated yield-data))
         (winner-balance (unwrap-panic (contract-call? .pool-manager get-balance winner-result)))
       )
-        ;; Record draw information
-        (map-set draws draw-id {
-          winner: (some winner-result),
-          winner-balance: winner-balance,
-          prize-amount: prize-amount,
-          draw-block: current-block,
-          participants-count: participant-count,
-          claimed: false
-        })
+        ;; Only proceed if there's actual yield to distribute
+        ;; If no yield, still record the draw but with 0 prize
+        (let (
+          (actual-prize (if (> prize-amount u0) prize-amount u0))
+        )
+          ;; Record draw information
+          (map-set draws draw-id {
+            winner: (some winner-result),
+            winner-balance: winner-balance,
+            prize-amount: actual-prize,
+            draw-block: current-block,
+            participants-count: participant-count,
+            claimed: false
+          })
 
-        ;; Update state
-        (var-set last-draw-block current-block)
-        (var-set current-draw-id (+ draw-id u1))
-        (var-set total-prize-pool (+ (var-get total-prize-pool) prize-amount))
+          ;; Update state
+          (var-set last-draw-block current-block)
+          (var-set current-draw-id (+ draw-id u1))
+          (var-set total-prize-pool (+ (var-get total-prize-pool) actual-prize))
 
-        (ok {
-          draw-id: draw-id,
-          winner: winner-result,
-          prize-amount: prize-amount
-        })
+          (ok {
+            draw-id: draw-id,
+            winner: winner-result,
+            prize-amount: actual-prize
+          })
+        )
       )
     )
   )
