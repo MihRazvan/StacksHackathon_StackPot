@@ -41,18 +41,20 @@ export default function LandingPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-1">234</div>
-              <div className="text-sm text-slate-500">Active Players</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-400 mb-1">0%</div>
-              <div className="text-sm text-slate-500">Risk of Loss</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-1">42</div>
-              <div className="text-sm text-slate-500">Current Draw</div>
+          <div className="bg-emerald-500 rounded-2xl p-8 max-w-3xl mx-auto">
+            <div className="grid grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-slate-950 mb-1">234</div>
+                <div className="text-sm text-slate-950/70">Active Players</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-slate-950 mb-1">0%</div>
+                <div className="text-sm text-slate-950/70">Risk of Loss</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-slate-950 mb-1">42</div>
+                <div className="text-sm text-slate-950/70">Current Draw</div>
+              </div>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { ConnectButton } from "@/features/wallet/components/connect-button";
+import { Footer } from "@/components/footer";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -58,7 +59,10 @@ export default function RootLayout({
               <ConnectButton />
             </div>
           </nav>
-          {children}
+          <div className="min-h-screen">
+            {children}
+          </div>
+          <Footer />
         </Providers>
       </body>
     </html>
