@@ -1,246 +1,114 @@
 'use client';
 
-import { useState } from 'react';
-import { usePoolDashboard } from '@/features/pool/hooks/use-pool-dashboard';
-import { usePoolYield, useContractStSTXValue } from '@/features/pool/hooks/use-pool-yield';
-import { useDemoMode } from '@/features/pool/hooks/use-demo-mode';
-import { useWallet } from '@/features/wallet/hooks/use-wallet';
-import { DepositModal } from '@/features/pool/components/deposit-modal';
-import { WithdrawModal } from '@/features/pool/components/withdraw-modal';
-import { UserDashboard } from '@/features/user/components/user-dashboard';
-import { TriggerDrawCard } from '@/features/draw/components/trigger-draw-card';
-import { DemoControls } from '@/features/demo/components/demo-controls';
-import { formatSTX } from '@/lib/utils';
-import { Bitcoin, Trophy, Award, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Shield, Zap, TrendingUp } from 'lucide-react';
 
-export default function Home() {
-  const { data: poolData, isLoading, error } = usePoolDashboard();
-  const { data: poolYield, isLoading: isYieldLoading } = usePoolYield();
-  const { data: stSTXValue, isLoading: isStSTXLoading } = useContractStSTXValue();
-  const { data: isDemoModeActive } = useDemoMode();
-  const { isConnected } = useWallet();
-  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-
-
-  if (error) {
-    return (
-      <main className="min-h-screen mesh-background flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-error-red text-h3 mb-4">Failed to load pool data</p>
-          <p className="text-text-secondary">{error.message}</p>
-        </div>
-      </main>
-    );
-  }
-
+export default function LandingPage() {
   return (
-    <main className="min-h-screen mesh-background">
-      <div className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h2 className="text-h1 text-text-primary mb-4">
-            Earn Yield from <span className="text-bitcoin-gold">Bitcoin</span> Stacking. <span className="text-cyber-teal">Keep Your STX.</span>
-          </h2>
-          <p className="text-body text-text-secondary max-w-2xl mx-auto mb-8">
-            The no-loss lottery on Stacks. Deposit STX, win <span className="text-bitcoin-gold font-semibold">BTC</span> yield (converted to STX), withdraw anytime.
+    <div className="min-h-screen bg-slate-950">
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+        <div className="text-center max-w-4xl mx-auto">
+          <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-tight">
+            <span className="text-white">Earn Yield from </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">
+              Bitcoin
+            </span>
+            <br />
+            <span className="text-white">Stacking. </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600">
+              Keep Your STX.
+            </span>
+          </h1>
+
+          <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+            No-loss lottery on Stacks. Deposit STX, win <span className="text-orange-400 font-semibold">BTC</span> yield (converted to STX), withdraw anytime with instant withdrawal.
           </p>
 
-          {/* Prize Pool Display */}
-          <div className="inline-flex items-center gap-4 flat-card p-8">
-            <div className="p-3 bg-bitcoin-gold/20 rounded-lg">
-              <Bitcoin className="w-8 h-8 text-bitcoin-gold" />
-            </div>
-            <div className="text-left">
-              <p className="text-text-muted text-small uppercase tracking-wide font-semibold">
-                <span className="text-bitcoin-gold">BTC</span> Yield Accumulated {isDemoModeActive && <span className="text-cyber-teal">(Demo)</span>}
-              </p>
-              <p className="text-h2 text-bitcoin-gold font-bold font-mono">
-                {isYieldLoading ? '...' : formatSTX(Number(poolYield ?? 0))} STX
-              </p>
-              <p className="text-small text-text-muted mt-1">
-                From Bitcoin stacking rewards
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* User Dashboard - Only shown when wallet is connected */}
-        {isConnected && (
-          <UserDashboard
-            onDeposit={() => setIsDepositModalOpen(true)}
-            onWithdraw={() => setIsWithdrawModalOpen(true)}
-          />
-        )}
-
-        {/* Stats Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {/* Total Pool */}
-          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
-            <h3 className="text-body text-text-muted mb-2">Total Pool</h3>
-            <p className="text-h2 text-text-primary font-mono">
-              {isLoading ? '...' : formatSTX(Number(poolData?.['total-pool-balance']?.value ?? 0))}
-            </p>
-            <p className="text-small text-text-muted mt-1">STX Deposited</p>
-          </div>
-
-          {/* stSTX Value */}
-          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
-            <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="w-4 h-4 text-success-green" />
-              <h3 className="text-body text-text-muted">Stacking Value</h3>
-            </div>
-            <p className="text-h2 text-text-primary font-mono">
-              {isStSTXLoading ? '...' : formatSTX(Number(stSTXValue ?? 0))}
-            </p>
-            <p className="text-small text-text-muted mt-1">stSTX Holdings</p>
-          </div>
-
-          {/* Participants */}
-          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
-            <h3 className="text-body text-text-muted mb-2">Participants</h3>
-            <p className="text-h2 text-text-primary font-mono">
-              {isLoading ? '...' : (poolData?.['total-participants']?.value ?? '0')}
-            </p>
-            <p className="text-small text-text-muted mt-1">Active Players</p>
-          </div>
-
-          {/* Next Draw */}
-          <div className="flat-card p-8 hover:border-cyber-teal transition-colors duration-300">
-            <h3 className="text-body text-text-muted mb-2">Next Draw</h3>
-            <p className="text-h2 text-text-primary font-mono">
-              {isLoading ? '...' : poolData?.['blocks-until-next-draw']?.value ?? '0'}
-            </p>
-            <p className="text-small text-text-muted mt-1">Bitcoin Blocks (~{isLoading ? '...' : Math.floor(Number(poolData?.['blocks-until-next-draw']?.value ?? 0) * 10)} min)</p>
-          </div>
-        </section>
-
-        {/* Trigger Draw Card */}
-        {!isLoading && poolData && (
-          <TriggerDrawCard
-            canDrawNow={Number(poolData?.['blocks-until-next-draw']?.value ?? 1) === 0}
-            blocksUntilNextDraw={Number(poolData?.['blocks-until-next-draw']?.value ?? 0)}
-            currentDrawId={Number(poolData?.['current-draw-id']?.value ?? 0)}
-            totalParticipants={Number(poolData?.['total-participants']?.value ?? 0)}
-            isLoading={isLoading}
-          />
-        )}
-
-        {/* CTA Section */}
-        <section className="text-center mb-12">
-          <div className="flat-card p-8 max-w-2xl mx-auto">
-            <h3 className="text-h2 text-text-primary mb-4">Ready to Play?</h3>
-            <p className="text-body text-text-secondary mb-6">
-              {isConnected
-                ? 'Deposit STX to earn Bitcoin stacking yield. Your principal is always safe—withdraw anytime with instant withdrawal.'
-                : 'Connect your wallet to deposit STX and earn Bitcoin stacking yield. Your principal is always safe—withdraw anytime.'
-              }
-            </p>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => setIsDepositModalOpen(true)}
-                className="px-8 py-4 bg-cyber-teal text-bg-main font-semibold rounded-lg hover:bg-teal-hover hover:teal-glow transition-all disabled:opacity-50"
-                disabled={!isConnected}
-              >
-                Deposit STX
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
+            <Link href="/pool">
+              <button className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl transition-all duration-200 flex items-center gap-2 shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 w-full sm:w-auto justify-center">
+                Play Now
+                <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="px-8 py-4 flat-card text-text-primary font-semibold hover:border-cyber-teal transition-colors">
-                Learn More
+            </Link>
+            <Link href="/history">
+              <button className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold rounded-xl border border-slate-700 transition-all duration-200 backdrop-blur-sm w-full sm:w-auto">
+                View History
               </button>
-            </div>
-            {!isConnected && (
-              <p className="text-small text-text-muted mt-4">
-                Connect your wallet to enable deposits
-              </p>
-            )}
+            </Link>
           </div>
-        </section>
 
-        {/* Deposit Modal */}
-        <DepositModal
-          isOpen={isDepositModalOpen}
-          onClose={() => setIsDepositModalOpen(false)}
-        />
-
-        {/* Withdraw Modal */}
-        <WithdrawModal
-          isOpen={isWithdrawModalOpen}
-          onClose={() => setIsWithdrawModalOpen(false)}
-        />
-
-        {/* Last Winner */}
-        {!isLoading && poolData && Number(poolData?.['current-draw-id']?.value ?? 0) > 0 && (
-          <section className="mt-12">
-            <div className="max-w-2xl mx-auto flat-card overflow-hidden">
-              {/* Header */}
-              <div className="bg-bg-elevated p-6 border-b border-border-subtle">
-                <div className="flex items-center justify-center gap-3">
-                  <Trophy className="w-6 h-6 text-bitcoin-gold" />
-                  <h3 className="text-h3 text-text-primary font-bold">Last Winner</h3>
-                </div>
-              </div>
-
-              {/* Winner Content */}
-              <div className="p-8">
-                {poolData['last-draw-info']?.value?.value ? (
-                  <>
-                    {/* Winner Address with Award Badge */}
-                    <div className="bitcoin-accent-card p-6 mb-6">
-                      <div className="flex items-center justify-center gap-3 mb-2">
-                        <Award className="w-5 h-5 text-bitcoin-gold" />
-                        <p className="text-mono text-text-primary text-body font-semibold">
-                          {String(poolData['last-draw-info']?.value?.value?.winner?.value?.value ?? poolData['last-draw-info']?.value?.value?.winner?.value ?? 'No winner selected')}
-                        </p>
-                      </div>
-                      <p className="text-center text-h2 text-bitcoin-gold font-bold">
-                        {formatSTX(Number(poolData['last-draw-info']?.value?.value?.['prize-amount']?.value ?? 0))} STX
-                      </p>
-                      <p className="text-center text-small text-text-muted mt-2">
-                        From <span className="text-bitcoin-gold font-semibold">Bitcoin</span> stacking yield
-                      </p>
-                    </div>
-
-                    {/* Draw Details Grid */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="p-4 flat-card-elevated">
-                        <p className="text-text-muted text-small mb-1">Draw Block</p>
-                        <p className="text-text-primary font-mono font-semibold">
-                          {String(poolData['last-draw-info']?.value?.value?.['draw-block']?.value ?? 'N/A')}
-                        </p>
-                      </div>
-                      <div className="p-4 flat-card-elevated">
-                        <p className="text-text-muted text-small mb-1">Participants</p>
-                        <p className="text-text-primary font-mono font-semibold">
-                          {String(poolData['last-draw-info']?.value?.value?.['participants-count']?.value ?? '0')}
-                        </p>
-                      </div>
-                      <div className="p-4 flat-card-elevated">
-                        <p className="text-text-muted text-small mb-1">Winner Balance</p>
-                        <p className="text-text-primary font-mono font-semibold">
-                          {formatSTX(Number(poolData['last-draw-info']?.value?.value?.['winner-balance']?.value ?? 0))} STX
-                        </p>
-                      </div>
-                      <div className="p-4 flat-card-elevated">
-                        <p className="text-text-muted text-small mb-1">Prize Claimed</p>
-                        <p className={`font-mono font-semibold ${poolData['last-draw-info']?.value?.value?.claimed?.value ? 'text-success-green' : 'text-text-muted'}`}>
-                          {poolData['last-draw-info']?.value?.value?.claimed?.value ? 'Yes' : 'No'}
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <p className="text-text-secondary text-center py-4">
-                    Draw has been triggered. Waiting for winner data to load...
-                  </p>
-                )}
-              </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-1">234</div>
+              <div className="text-sm text-slate-500">Active Players</div>
             </div>
-          </section>
-        )}
-      </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-emerald-400 mb-1">0%</div>
+              <div className="text-sm text-slate-500">Risk of Loss</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-1">42</div>
+              <div className="text-sm text-slate-500">Current Draw</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Demo Mode Controls - Only visible for contract owner when demo mode is active */}
-      <DemoControls />
-    </main>
+      {/* Features */}
+      <section className="max-w-7xl mx-auto px-6 pb-32">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
+          <p className="text-xl text-slate-400">Simple, safe, and transparent</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Feature 1: No Loss */}
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-emerald-600/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
+            <div className="relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-emerald-500/50 transition-all duration-300 backdrop-blur-sm">
+              <div className="w-14 h-14 bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 rounded-xl flex items-center justify-center mb-6 border border-emerald-500/20">
+                <Shield className="w-7 h-7 text-emerald-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">No Loss</h3>
+              <p className="text-slate-400 leading-relaxed">
+                Your principal is always safe. Withdraw anytime to get your full STX deposit back.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 2: Bitcoin Yield */}
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
+            <div className="relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-orange-500/50 transition-all duration-300 backdrop-blur-sm">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-500/10 to-amber-600/10 rounded-xl flex items-center justify-center mb-6 border border-orange-500/20">
+                <TrendingUp className="w-7 h-7 text-orange-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">Bitcoin Yield</h3>
+              <p className="text-slate-400 leading-relaxed">
+                Win Bitcoin stacking rewards automatically converted to STX. Real BTC yield.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 3: Fair & Instant */}
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-purple-600/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
+            <div className="relative bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300 backdrop-blur-sm">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mb-6 border border-purple-500/20">
+                <Zap className="w-7 h-7 text-purple-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">Fair & Instant</h3>
+              <p className="text-slate-400 leading-relaxed">
+                Provably fair winner selection. Instant withdrawals available with small fee.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
