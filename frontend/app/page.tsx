@@ -6,55 +6,59 @@ import { ArrowRight, Shield, Zap, TrendingUp } from 'lucide-react';
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-950">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-tight">
-            <span className="text-white">Earn Yield from </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">
-              Bitcoin
-            </span>
-            <br />
-            <span className="text-white">Stacking. </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600">
-              Keep Your STX.
-            </span>
-          </h1>
+      {/* Hero Section - Full viewport height on desktop */}
+      <section className="min-h-[calc(100vh-80px)] flex items-center justify-center">
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-tight">
+              <span className="text-white">Earn Yield from </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">
+                Bitcoin
+              </span>
+              <br />
+              <span className="text-white">Stacking. </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600">
+                Keep Your STX.
+              </span>
+            </h1>
 
-          <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            No-loss lottery on Stacks. Deposit STX, win <span className="text-orange-400 font-semibold">BTC</span> yield (converted to STX), withdraw anytime with instant withdrawal.
-          </p>
+            <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+              No-loss lottery on Stacks. Deposit STX, win <span className="text-orange-400 font-semibold">BTC</span> yield (converted to STX), withdraw anytime with instant withdrawal.
+            </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <Link href="/pool">
-              <button className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl transition-all duration-200 flex items-center gap-2 shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 w-full sm:w-auto justify-center">
-                Play Now
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </Link>
-            <Link href="/history">
-              <button className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold rounded-xl border border-slate-700 transition-all duration-200 backdrop-blur-sm w-full sm:w-auto">
-                View History
-              </button>
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/pool">
+                <button className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl transition-all duration-200 flex items-center gap-2 shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 w-full sm:w-auto justify-center">
+                  Play Now
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
+              <Link href="/history">
+                <button className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold rounded-xl border border-slate-700 transition-all duration-200 backdrop-blur-sm w-full sm:w-auto">
+                  View History
+                </button>
+              </Link>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 max-w-3xl mx-auto backdrop-blur-sm">
-            <div className="grid grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1">234</div>
-                <div className="text-sm text-slate-400">Active Players</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-400 mb-1">0%</div>
-                <div className="text-sm text-slate-400">Risk of Loss</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-1">42</div>
-                <div className="text-sm text-slate-400">Current Draw</div>
-              </div>
+      {/* Stats Section - Below the fold */}
+      <section className="max-w-7xl mx-auto px-6 pb-20">
+        <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 max-w-3xl mx-auto backdrop-blur-sm">
+          <div className="grid grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-1">234</div>
+              <div className="text-sm text-slate-400">Active Players</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-emerald-400 mb-1">0%</div>
+              <div className="text-sm text-slate-400">Risk of Loss</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-1">42</div>
+              <div className="text-sm text-slate-400">Current Draw</div>
             </div>
           </div>
         </div>
