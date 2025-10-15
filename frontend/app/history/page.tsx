@@ -1,13 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getPoolDashboard, getUserDashboard, getDrawInfo } from '@/lib/stacks/contracts';
+import { getPoolDashboard, getUserDashboard, getDrawInfo, claimPrize } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
-import { Trophy, History as HistoryIcon, TrendingUp, Award, Calendar } from 'lucide-react';
+import { Trophy, History as HistoryIcon, TrendingUp, Award, Calendar, Gift } from 'lucide-react';
 import { formatSTX, shortenAddress } from '@/lib/utils';
 
 export default function HistoryPage() {
   const { stxAddress, isConnected } = useWallet();
+  const [claimingDrawId, setClaimingDrawId] = useState<number | null>(null);
 
   // Fetch pool dashboard to get current draw ID
   const { data: poolData, isLoading: isLoadingPool } = useQuery({
@@ -63,6 +65,19 @@ export default function HistoryPage() {
   });
 
   const isLoading = isLoadingPool || isLoadingDraws;
+
+  const handleClaimPrize = async (drawId: number) => {
+    setClaimingDrawId(drawId);
+    try {
+      await claimPrize(drawId);
+      // Refetch draw data after claiming
+      // The useQuery will automatically refetch
+    } catch (error) {
+      console.error('Failed to claim prize:', error);
+    } finally {
+      setClaimingDrawId(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -185,8 +200,20 @@ export default function HistoryPage() {
                           </div>
                         </div>
                         {isUserWinner && (
-                          <div className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-                            <p className="text-sm text-emerald-400 font-semibold">You Won!</p>
+                          <div className="flex items-center gap-3">
+                            <div className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                              <p className="text-sm text-emerald-400 font-semibold">You Won!</p>
+                            </div>
+                            {!claimed && (
+                              <button
+                                onClick={() => handleClaimPrize(draw.id)}
+                                disabled={claimingDrawId === draw.id}
+                                className="px-6 py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                <Gift className="w-4 h-4" />
+                                {claimingDrawId === draw.id ? 'Claiming...' : 'Claim Prize'}
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>
