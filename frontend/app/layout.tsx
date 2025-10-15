@@ -42,6 +42,12 @@ export default function RootLayout({
                     Home
                   </Link>
                   <Link
+                    href="/pool"
+                    className="text-body text-text-secondary hover:text-cyber-teal transition-colors"
+                  >
+                    Pool
+                  </Link>
+                  <Link
                     href="/history"
                     className="text-body text-text-secondary hover:text-cyber-teal transition-colors"
                   >

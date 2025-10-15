@@ -10,7 +10,7 @@ import { WithdrawModal } from '@/features/pool/components/withdraw-modal';
 import { DemoControls } from '@/features/demo/components/demo-controls';
 import { ConnectButton } from '@/features/wallet/components/connect-button';
 import { formatSTX } from '@/lib/utils';
-import { Trophy, Users, Clock, ShoppingCart, DollarSign, Zap, TrendingUp } from 'lucide-react';
+import { Trophy, Users, Clock, Zap, TrendingUp } from 'lucide-react';
 
 export default function PoolPage() {
   const { data: poolData, isLoading, error } = usePoolDashboard();
@@ -59,7 +59,9 @@ export default function PoolPage() {
           /* ========== LOGGED OUT VIEW ========== */
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <h1 className="text-5xl font-bold text-white mb-4">Join the Pool</h1>
+              <h1 className="text-5xl font-bold text-white mb-4">
+                Join the <span className="text-emerald-400">No-Loss Lottery</span>
+              </h1>
               <p className="text-xl text-slate-400">
                 Deposit STX, earn tickets, win Bitcoin yield
               </p>
@@ -130,18 +132,16 @@ export default function PoolPage() {
               <div className="space-y-3">
                 <button
                   onClick={() => setIsDepositModalOpen(true)}
-                  className="w-full py-5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-lg rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.02]"
+                  className="w-full py-5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-lg rounded-xl transition-all duration-200 shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.02]"
                 >
-                  <ShoppingCart className="w-5 h-5" />
                   Buy Tickets
                 </button>
 
                 <button
                   onClick={() => setIsWithdrawModalOpen(true)}
                   disabled={userBalance === 0}
-                  className="w-full py-5 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold text-lg rounded-xl border border-slate-700 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-5 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold text-lg rounded-xl border border-slate-700 transition-all duration-200 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <DollarSign className="w-5 h-5" />
                   Sell Tickets
                 </button>
               </div>

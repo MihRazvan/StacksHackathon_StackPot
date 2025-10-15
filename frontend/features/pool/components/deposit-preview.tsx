@@ -63,10 +63,10 @@ export function DepositPreview({ data, isLoading }: DepositPreviewProps) {
         {/* Current State */}
         <div className="p-4 flat-card-elevated">
           <p className="text-small text-text-muted mb-2">Current Chance</p>
-          <p className="text-h2 text-text-primary font-bold font-mono">
+          <p className="text-h3 text-text-primary font-bold font-mono break-words">
             {currentPercent}%
           </p>
-          <p className="text-small text-text-muted mt-1">
+          <p className="text-small text-text-muted mt-1 break-words">
             {formatTickets(data.currentTickets)} tickets
           </p>
         </div>
@@ -77,17 +77,17 @@ export function DepositPreview({ data, isLoading }: DepositPreviewProps) {
             <p className="text-small text-cyber-teal font-semibold">After Deposit</p>
             {isIncrease && <ArrowUpRight className="w-3 h-3 text-success-green" />}
           </div>
-          <div className="flex items-baseline gap-2">
-            <p className="text-h2 text-text-primary font-bold font-mono">
+          <div className="flex items-baseline gap-1">
+            <p className="text-h3 text-text-primary font-bold font-mono break-words">
               {newPercent}%
             </p>
-            <p className={`text-small font-semibold ${isIncrease ? 'text-success-green' : 'text-text-muted'}`}>
+            <p className={`text-small font-semibold whitespace-nowrap ${isIncrease ? 'text-success-green' : 'text-text-muted'}`}>
               {percentChange}
             </p>
           </div>
-          <p className="text-small text-text-muted mt-1">
+          <p className="text-small text-text-muted mt-1 break-words">
             {formatTickets(data.newTickets)} tickets
-            <span className="text-success-green ml-1">
+            <span className="text-success-green ml-1 whitespace-nowrap">
               (+{formatTickets(data.ticketsAdded)})
             </span>
           </p>
