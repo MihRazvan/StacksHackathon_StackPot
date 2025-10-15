@@ -65,63 +65,61 @@ export default function HistoryPage() {
   const isLoading = isLoadingPool || isLoadingDraws;
 
   return (
-    <main className="min-h-screen mesh-background">
-      <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen bg-slate-950">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="p-3 bg-cyber-teal/20 rounded-lg">
-            <HistoryIcon className="w-8 h-8 text-cyber-teal" />
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-2">
+            <HistoryIcon className="w-10 h-10 text-emerald-400" />
+            <h1 className="text-5xl font-bold text-white">Draw History</h1>
           </div>
-          <div>
-            <h1 className="text-h1 text-text-primary">Draw History</h1>
-            <p className="text-body text-text-secondary">Past draws and your stats</p>
-          </div>
+          <p className="text-xl text-slate-400 ml-13">Past draws and winners</p>
         </div>
 
         {/* User Stats Section */}
         {isConnected && userData && (
           <section className="mb-12">
-            <div className="flat-card p-8">
+            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 backdrop-blur-sm">
               <div className="flex items-center gap-2 mb-6">
-                <TrendingUp className="w-5 h-5 text-cyber-teal" />
-                <h2 className="text-h2 text-text-primary">Your Stats</h2>
+                <TrendingUp className="w-6 h-6 text-emerald-400" />
+                <h2 className="text-3xl font-bold text-white">Your Stats</h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {/* Current Balance */}
-                <div className="p-4 flat-card-elevated">
-                  <p className="text-small text-text-muted mb-1">Current Balance</p>
-                  <p className="text-h2 text-text-primary font-mono">
+                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-sm text-slate-400 mb-2">Current Balance</p>
+                  <p className="text-3xl font-bold text-white">
                     {formatSTX(Number(userData.value?.balance?.value ?? 0))}
                   </p>
-                  <p className="text-small text-text-muted mt-1">STX</p>
+                  <p className="text-sm text-slate-500 mt-1">STX</p>
                 </div>
 
                 {/* Current Tickets */}
-                <div className="p-4 flat-card-elevated">
-                  <p className="text-small text-text-muted mb-1">Your Tickets</p>
-                  <p className="text-h2 text-text-primary font-mono">
+                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-sm text-slate-400 mb-2">Your Tickets</p>
+                  <p className="text-3xl font-bold text-emerald-400">
                     {Number(userData.value?.tickets?.value ?? 0).toLocaleString()}
                   </p>
-                  <p className="text-small text-text-muted mt-1">Entries</p>
+                  <p className="text-sm text-slate-500 mt-1">Entries</p>
                 </div>
 
                 {/* Win Probability */}
-                <div className="p-4 flat-card-elevated">
-                  <p className="text-small text-text-muted mb-1">Win Chance</p>
-                  <p className="text-h2 text-text-primary font-mono">
+                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-sm text-slate-400 mb-2">Win Chance</p>
+                  <p className="text-3xl font-bold text-white">
                     {((Number(userData.value?.['win-probability']?.value?.['probability-basis-points']?.value ?? 0)) / 100).toFixed(2)}%
                   </p>
-                  <p className="text-small text-text-muted mt-1">Probability</p>
+                  <p className="text-sm text-slate-500 mt-1">Probability</p>
                 </div>
 
                 {/* Draws Entered */}
-                <div className="p-4 bitcoin-accent-card">
-                  <p className="text-small text-text-muted mb-1">Draws Entered</p>
-                  <p className="text-h2 text-text-primary font-mono">
+                <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-6 backdrop-blur-sm">
+                  <p className="text-sm text-slate-400 mb-2">Draws Entered</p>
+                  <p className="text-3xl font-bold text-white">
                     {currentDrawId}
                   </p>
-                  <p className="text-small text-text-muted mt-1">Total</p>
+                  <p className="text-sm text-slate-500 mt-1">Total</p>
                 </div>
               </div>
             </div>
@@ -131,25 +129,25 @@ export default function HistoryPage() {
         {/* Draw History Section */}
         <section>
           <div className="flex items-center gap-2 mb-6">
-            <Trophy className="w-5 h-5 text-bitcoin-gold" />
-            <h2 className="text-h2 text-text-primary">Past Draws</h2>
+            <Trophy className="w-6 h-6 text-orange-400" />
+            <h2 className="text-3xl font-bold text-white">Past Draws</h2>
           </div>
 
           {isLoading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="flat-card p-8">
-                  <div className="h-6 bg-bg-elevated animate-shimmer rounded w-32 mb-4"></div>
-                  <div className="h-4 bg-bg-elevated animate-shimmer rounded w-full mb-2"></div>
-                  <div className="h-4 bg-bg-elevated animate-shimmer rounded w-3/4"></div>
+                <div key={i} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 backdrop-blur-sm">
+                  <div className="h-6 bg-slate-800 animate-pulse rounded w-32 mb-4"></div>
+                  <div className="h-4 bg-slate-800 animate-pulse rounded w-full mb-2"></div>
+                  <div className="h-4 bg-slate-800 animate-pulse rounded w-3/4"></div>
                 </div>
               ))}
             </div>
           ) : currentDrawId === 0 ? (
-            <div className="flat-card p-12 text-center">
-              <Trophy className="w-16 h-16 text-text-muted mx-auto mb-4" />
-              <h3 className="text-h3 text-text-primary mb-2">No Draws Yet</h3>
-              <p className="text-body text-text-secondary">
+            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-12 text-center backdrop-blur-sm">
+              <Trophy className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-white mb-2">No Draws Yet</h3>
+              <p className="text-slate-400">
                 The first draw hasn&apos;t happened yet. Check back soon!
               </p>
             </div>
@@ -169,26 +167,26 @@ export default function HistoryPage() {
                 return (
                   <div
                     key={draw.id}
-                    className="flat-card overflow-hidden"
+                    className="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur-sm"
                   >
                     {/* Header */}
-                    <div className="bg-bg-elevated p-6 border-b border-border-subtle">
+                    <div className="bg-slate-800/50 p-6 border-b border-slate-700">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <Award className="w-6 h-6 text-bitcoin-gold" />
+                          <Award className="w-6 h-6 text-orange-400" />
                           <div>
-                            <h3 className="text-h3 text-text-primary font-bold">
+                            <h3 className="text-2xl font-bold text-white">
                               Draw #{draw.id}
                             </h3>
                             <div className="flex items-center gap-2 mt-1">
-                              <Calendar className="w-3 h-3 text-text-muted" />
-                              <p className="text-small text-text-muted">Block {drawBlock}</p>
+                              <Calendar className="w-4 h-4 text-slate-400" />
+                              <p className="text-sm text-slate-400">Block {drawBlock}</p>
                             </div>
                           </div>
                         </div>
                         {isUserWinner && (
-                          <div className="px-3 py-1 teal-accent-card">
-                            <p className="text-small text-cyber-teal font-semibold">You Won!</p>
+                          <div className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                            <p className="text-sm text-emerald-400 font-semibold">You Won!</p>
                           </div>
                         )}
                       </div>
@@ -197,40 +195,42 @@ export default function HistoryPage() {
                     {/* Content */}
                     <div className="p-8">
                       {/* Winner Info */}
-                      <div className="mb-4">
-                        <p className="text-small text-text-muted mb-2">Winner</p>
-                        <p className="text-body text-text-primary font-mono">
+                      <div className="mb-6">
+                        <p className="text-sm text-slate-400 mb-2">Winner</p>
+                        <p className="text-lg text-white font-mono">
                           {winner ? shortenAddress(String(winner)) : 'No winner'}
                         </p>
                       </div>
 
                       {/* Stats Grid */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="p-4 bitcoin-accent-card">
-                          <p className="text-small text-text-muted mb-1">Prize</p>
-                          <p className="text-body text-bitcoin-gold font-bold font-mono">
-                            {formatSTX(prizeAmount)} STX
+                        <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 backdrop-blur-sm">
+                          <p className="text-sm text-slate-400 mb-1">Prize</p>
+                          <p className="text-xl font-bold text-orange-400">
+                            {formatSTX(prizeAmount)}
                           </p>
-                          <p className="text-small text-text-muted mt-1">From BTC yield</p>
+                          <p className="text-xs text-slate-500 mt-1">STX</p>
                         </div>
 
-                        <div className="p-4 flat-card-elevated">
-                          <p className="text-small text-text-muted mb-1">Participants</p>
-                          <p className="text-body text-text-primary font-mono">
+                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm">
+                          <p className="text-sm text-slate-400 mb-1">Participants</p>
+                          <p className="text-xl font-bold text-white">
                             {participants}
                           </p>
+                          <p className="text-xs text-slate-500 mt-1">Players</p>
                         </div>
 
-                        <div className="p-4 flat-card-elevated">
-                          <p className="text-small text-text-muted mb-1">Winner Balance</p>
-                          <p className="text-body text-text-primary font-mono">
-                            {formatSTX(winnerBalance)} STX
+                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm">
+                          <p className="text-sm text-slate-400 mb-1">Winner Balance</p>
+                          <p className="text-xl font-bold text-white">
+                            {formatSTX(winnerBalance)}
                           </p>
+                          <p className="text-xs text-slate-500 mt-1">STX</p>
                         </div>
 
-                        <div className="p-4 flat-card-elevated">
-                          <p className="text-small text-text-muted mb-1">Status</p>
-                          <p className={`text-body font-semibold ${claimed ? 'text-success-green' : 'text-text-muted'}`}>
+                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 backdrop-blur-sm">
+                          <p className="text-sm text-slate-400 mb-1">Status</p>
+                          <p className={`text-xl font-bold ${claimed ? 'text-emerald-400' : 'text-slate-500'}`}>
                             {claimed ? 'Claimed' : 'Unclaimed'}
                           </p>
                         </div>
@@ -243,6 +243,6 @@ export default function HistoryPage() {
           )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }
