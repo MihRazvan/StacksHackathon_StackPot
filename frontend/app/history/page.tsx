@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getPoolDashboard, getUserDashboard, getDrawInfo, claimPrize } from '@/lib/stacks/contracts';
 import { useWallet } from '@/features/wallet/hooks/use-wallet';
-import { Trophy, History as HistoryIcon, TrendingUp, Award, Calendar, Gift } from 'lucide-react';
+import { Trophy, History as HistoryIcon, Calendar, Gift } from 'lucide-react';
 import { formatSTX, shortenAddress } from '@/lib/utils';
 
 export default function HistoryPage() {
@@ -91,63 +91,8 @@ export default function HistoryPage() {
           <p className="text-xl text-slate-400 ml-13">Past draws and winners</p>
         </div>
 
-        {/* User Stats Section */}
-        {isConnected && userData && (
-          <section className="mb-12">
-            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 backdrop-blur-sm">
-              <div className="flex items-center gap-2 mb-6">
-                <TrendingUp className="w-6 h-6 text-emerald-400" />
-                <h2 className="text-3xl font-bold text-white">Your Stats</h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {/* Current Balance */}
-                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-sm text-slate-400 mb-2">Current Balance</p>
-                  <p className="text-3xl font-bold text-white">
-                    {formatSTX(Number(userData.value?.balance?.value ?? 0))}
-                  </p>
-                  <p className="text-sm text-slate-500 mt-1">STX</p>
-                </div>
-
-                {/* Current Tickets */}
-                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-sm text-slate-400 mb-2">Your Tickets</p>
-                  <p className="text-3xl font-bold text-emerald-400">
-                    {Number(userData.value?.tickets?.value ?? 0).toLocaleString()}
-                  </p>
-                  <p className="text-sm text-slate-500 mt-1">Entries</p>
-                </div>
-
-                {/* Win Probability */}
-                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-sm text-slate-400 mb-2">Win Chance</p>
-                  <p className="text-3xl font-bold text-white">
-                    {((Number(userData.value?.['win-probability']?.value?.['probability-basis-points']?.value ?? 0)) / 100).toFixed(2)}%
-                  </p>
-                  <p className="text-sm text-slate-500 mt-1">Probability</p>
-                </div>
-
-                {/* Draws Entered */}
-                <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-6 backdrop-blur-sm">
-                  <p className="text-sm text-slate-400 mb-2">Draws Entered</p>
-                  <p className="text-3xl font-bold text-white">
-                    {currentDrawId}
-                  </p>
-                  <p className="text-sm text-slate-500 mt-1">Total</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
         {/* Draw History Section */}
         <section>
-          <div className="flex items-center gap-2 mb-6">
-            <Trophy className="w-6 h-6 text-orange-400" />
-            <h2 className="text-3xl font-bold text-white">Past Draws</h2>
-          </div>
-
           {isLoading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
@@ -187,16 +132,13 @@ export default function HistoryPage() {
                     {/* Header */}
                     <div className="bg-slate-800/50 p-6 border-b border-slate-700">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Award className="w-6 h-6 text-orange-400" />
-                          <div>
-                            <h3 className="text-2xl font-bold text-white">
-                              Draw #{draw.id}
-                            </h3>
-                            <div className="flex items-center gap-2 mt-1">
-                              <Calendar className="w-4 h-4 text-slate-400" />
-                              <p className="text-sm text-slate-400">Block {drawBlock}</p>
-                            </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-white">
+                            Draw #{draw.id}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Calendar className="w-4 h-4 text-slate-400" />
+                            <p className="text-sm text-slate-400">Block {drawBlock}</p>
                           </div>
                         </div>
                         {isUserWinner && (
