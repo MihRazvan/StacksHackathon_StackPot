@@ -1,11 +1,10 @@
 # StackPot
 
-![stackpot-banner](https://via.placeholder.com/1200x400/5546FF/FFFFFF?text=StackPot+-+No-Loss+Bitcoin+Lottery+on+Stacks)
+![stackpot-banner](https://pulsarmoney.b-cdn.net/stacks/Screenshot%202025-10-16%20at%2000.04.15.png)
 
 **StackPot** is a no-loss Bitcoin lottery on Stacks where users deposit STX, earn Bitcoin yields through staking, and compete for weekly prize pools—all while maintaining 100% principal safety.
 
-[Demo Video](#) | [Prototype App](#) | [Slide Deck](#) | [Validation Document](./stackpot_validation.md) | [Technical Documentation](./stackpot/DEPLOYMENT_README.md)
-
+[Demo Video](#) | [Prototype App]([#](https://stacks-hackathon-stack-pot-wv5o.vercel.app/)) | [Validation Document](./stackpot_validation.md)
 ---
 
 ## The Problem We Are Solving
@@ -31,7 +30,7 @@ StackPot transforms boring staking into an exciting, social experience with Bitc
 4. **100% Principal Safety** – Withdraw your full deposit anytime—this is truly no-loss.
 5. **Provably Fair** – No oracles, no manipulation—just Bitcoin's own hash power ensuring fairness.
 
-![user-flow](https://via.placeholder.com/1000x600/FFFFFF/5546FF?text=User+Flow+Diagram)
+![user-flow](https://pulsarmoney.b-cdn.net/stacks/Screenshot%202025-10-16%20at%2016.08.55.png)
 
 ---
 
@@ -84,6 +83,12 @@ While PoolTogether pioneered no-loss lotteries, StackPot brings critical improve
 
 ---
 
+## 🏗️ How It Works (Technical)
+
+### Architecture Overview
+
+![stackpot-banner](https://pulsarmoney.b-cdn.net/stacks/Screenshot%202025-10-16%20at%2014.39.05.png)
+
 ## Tech Stack
 
 **Frontend:**
@@ -102,8 +107,6 @@ While PoolTogether pioneered no-loss lotteries, StackPot brings critical improve
 - Prize pool calculations
 - Draw automation
 - Liquidation risk monitoring (future)
-
-![tech-stack](https://via.placeholder.com/1000x600/FFFFFF/5546FF?text=Tech+Stack+Diagram)
 
 ---
 
@@ -179,39 +182,6 @@ Routes deposits through StackingDAO for Bitcoin yield generation.
 **Full validation report:** [Read stackpot_validation.md](./stackpot_validation.md)
 
 ---
-
-## 🏗️ How It Works (Technical)
-
-### Architecture Overview
-
-```
-┌─────────────┐
-│   User      │
-│  (Wallet)   │
-└──────┬──────┘
-       │ Deposit STX
-       ▼
-┌─────────────────────┐
-│  Pool Manager V3    │
-│  - Track deposits   │
-│  - Calculate shares │
-└──────┬──────────────┘
-       │ Route to stacking
-       ▼
-┌─────────────────────┐
-│ Stacking Adapter V3 │
-│ - StackingDAO calls │
-│ - Yield tracking    │
-└──────┬──────────────┘
-       │ Accumulate BTC yields
-       ▼
-┌─────────────────────┐
-│Prize Distributor V3 │
-│ - Bitcoin block hash│
-│ - Winner selection  │
-│ - Prize payout      │
-└─────────────────────┘
-```
 
 ### Key Components:
 
