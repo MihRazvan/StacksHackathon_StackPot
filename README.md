@@ -8,17 +8,9 @@
 
 ---
 
-## Team
-
-StackPot is built by experienced DeFi builders with deep knowledge of the Stacks ecosystem, Clarity smart contracts, and gamified savings protocols.
-
-Our background spans DeFi infrastructure development, Bitcoin L2 architecture, and user-centric product design—making us uniquely positioned to bring PoolTogether's proven model to Stacks with Bitcoin-native improvements.
-
----
-
 ## The Problem We Are Solving
 
-Stacks ecosystem faces several critical challenges:
+Areas of improvement for the Stacks ecosystem:
 
 1. **Lack of Engagement Narratives** – Stacks has lending, DEXs, and stablecoins, but lacks the "mini dApps" that drive ecosystem adoption (like Solana's pump.fun or Base's AI agents).
 2. **Boring Yield Experience** – 70% of STX (~350M tokens, $525M) sits idle because traditional stacking is complex and unexciting.
@@ -44,8 +36,6 @@ StackPot transforms boring staking into an exciting, social experience with Bitc
 ---
 
 ## Why Now?
-
-DeFi adoption is accelerating, but Stacks needs a narrative:
 
 - **PoolTogether proves the model** – $300M TVL and 50K+ users validate prize-linked savings.
 - **Bitcoin yields are aspirational** – Users want BTC, not stablecoins (cultural significance).
@@ -91,13 +81,6 @@ While PoolTogether pioneered no-loss lotteries, StackPot brings critical improve
 - Pool tickets with friends to increase collective odds
 - Social competition drives viral growth
 - Every winner brings their entire crew to Stacks
-
-### 📈 Roadmap
-
-- **Q1 2025** – Security audit + Mainnet launch
-- **Q2 2025** – 500 users, $1M TVL, launch weighted tickets
-- **Q3 2025** – Team mode + mobile app
-- **Q4 2025** – 2,000 users, cross-protocol integrations, DAO governance
 
 ---
 
@@ -181,14 +164,6 @@ Routes deposits through StackingDAO for Bitcoin yield generation.
 ---
 
 ## 📊 Validation Results
-
-We conducted extensive validation over 7 days:
-
-- **15+ user conversations** across Reddit, Discord, and Twitter
-- **2,000+ people reached** through social channels
-- **10+ committed users** ready to deposit 5-10% of their STX holdings
-- **Technical feasibility confirmed** in under 3 hours of testing
-- **Zero direct competitors** identified on Stacks
 
 ### Key User Feedback:
 
@@ -279,25 +254,6 @@ We conducted extensive validation over 7 days:
 5. **Win Bitcoin** – Check if you won, claim your prize
 6. **Withdraw Anytime** – 100% of your principal, always
 
-### For Developers
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/stackpot.git
-cd stackpot
-
-# Install dependencies
-npm install
-
-# Run local development
-npm run dev
-
-# Deploy contracts (testnet)
-cd stackpot
-clarinet check
-clarinet deployments apply -p deployments/default.testnet-plan.yaml
-```
-
 **Documentation:**
 - [Deployment Guide](./stackpot/DEPLOYMENT_README.md)
 - [Contract Documentation](./stackpot/contracts/)
@@ -328,37 +284,6 @@ clarinet deployments apply -p deployments/default.testnet-plan.yaml
 - Bitcoin-native randomness (unique technical advantage)
 - Network effects (bigger prizes attract more users)
 - StackingDAO integration creates switching costs
-
----
-
-## 🏆 Why StackPot Will Win
-
-### Proven Model
-- PoolTogether: $300M TVL, 50K+ users
-- Prize-linked savings work across cultures and demographics
-- No-loss mechanic reduces friction and risk
-
-### Bitcoin Alignment
-- Uses Bitcoin block hashes for randomness (free + secure)
-- Prizes paid in BTC (aspirational asset)
-- Increases Bitcoin utility through Stacks' PoX
-
-### Technical Excellence
-- Clean Clarity smart contracts
-- StackingDAO integration for proven yield infrastructure
-- Real-time monitoring and automation
-- Security-first approach
-
-### User Validation
-- 10+ committed users ready to deposit
-- Strong social proof from PoolTogether veterans
-- Clear product-market fit on Stacks
-
-### Ecosystem Impact
-- **Onboarding mechanism** – Your intro into Stacks
-- **Narrative driver** – Makes "StackPotting" a verb
-- **Liquidity magnet** – Attracts capital to Stacks ecosystem
-- **Community builder** – Weekly winners create engaged user base
 
 ---
 
