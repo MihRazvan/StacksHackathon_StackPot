@@ -4,7 +4,7 @@
 
 **StackPot** is a no-loss Bitcoin lottery on Stacks where users deposit STX, earn Bitcoin yields through staking, and compete for weekly prize pools—all while maintaining 100% principal safety.
 
-[Slides Presentation Video](https://youtu.be/MWx6Q-Ah9OQ) | [Live Demo Video](#) | [Prototype App](https://stacks-hackathon-stack-pot-wv5o.vercel.app/) | [Validation Document](./stackpot_validation.md)
+[Slides Presentation Video](https://youtu.be/MWx6Q-Ah9OQ) | [Live Demo Video](https://youtu.be/Hb-apjQhNwI) | [Prototype App](https://stacks-hackathon-stack-pot-wv5o.vercel.app/) | [Validation Document](./stackpot_validation.md)
 
 ---
 
