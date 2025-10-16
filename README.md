@@ -143,27 +143,28 @@ Routes deposits through StackingDAO for Bitcoin yield generation.
 
 ---
 
-### Mainnet Deployment (Coming Q1 2025)
+## 📝 Smart Contracts
 
-**Deployer Address:** `TBD`
+### Mainnet Deployment
+**Deployer Address:** `SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A`
 
-#### 1. Pool Manager
+#### 1. Pool Manager V3
 ```
-[Mainnet address TBD]
+SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.pool-manager-v3
 ```
-🔗 [View on Mainnet Explorer](#)
+🔗 [View on Explorer](https://explorer.hiro.so/txid/SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.pool-manager-v3?chain=mainnet)
 
-#### 2. Prize Distributor
+#### 2. Prize Distributor V3
 ```
-[Mainnet address TBD]
+SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.prize-distributor-v3
 ```
-🔗 [View on Mainnet Explorer](#)
+🔗 [View on Explorer](https://explorer.hiro.so/txid/SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.prize-distributor-v3?chain=mainnet)
 
-#### 3. Stacking Adapter
+#### 3. Stacking Adapter V3
 ```
-[Mainnet address TBD]
+SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.stacking-adapter-v3
 ```
-🔗 [View on Mainnet Explorer](#)
+🔗 [View on Explorer](https://explorer.hiro.so/txid/SP1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S98QKX1A.stacking-adapter-v3?chain=mainnet)
 
 ---
 
