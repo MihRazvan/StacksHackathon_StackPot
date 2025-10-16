@@ -1,255 +1,415 @@
-# StackPot - No-Loss Lottery on Stacks
+# StackPot
 
-A prize-linked savings protocol on Stacks blockchain. Users deposit STX tokens into a pool that automatically Stacks to earn Bitcoin rewards. One random winner takes the weekly prize pool while all participants keep 100% of their deposits.
+![stackpot-banner](https://via.placeholder.com/1200x400/5546FF/FFFFFF?text=StackPot+-+No-Loss+Bitcoin+Lottery+on+Stacks)
 
-## Project Structure
+**StackPot** is a no-loss Bitcoin lottery on Stacks where users deposit STX, earn Bitcoin yields through staking, and compete for weekly prize pools—all while maintaining 100% principal safety.
+
+[Demo Video](#) | [Prototype App](#) | [Slide Deck](#) | [Validation Document](./stackpot_validation.md) | [Technical Documentation](./stackpot/DEPLOYMENT_README.md)
+
+---
+
+## Team
+
+StackPot is built by experienced DeFi builders with deep knowledge of the Stacks ecosystem, Clarity smart contracts, and gamified savings protocols.
+
+Our background spans DeFi infrastructure development, Bitcoin L2 architecture, and user-centric product design—making us uniquely positioned to bring PoolTogether's proven model to Stacks with Bitcoin-native improvements.
+
+---
+
+## The Problem We Are Solving
+
+Stacks ecosystem faces several critical challenges:
+
+1. **Lack of Engagement Narratives** – Stacks has lending, DEXs, and stablecoins, but lacks the "mini dApps" that drive ecosystem adoption (like Solana's pump.fun or Base's AI agents).
+2. **Boring Yield Experience** – 70% of STX (~350M tokens, $525M) sits idle because traditional stacking is complex and unexciting.
+3. **Missed Bitcoin Yields** – Users are leaving $42-63M/year in foregone Bitcoin rewards on the table due to friction and boredom.
+4. **No Gamified DeFi** – Every successful chain has narrative-driven applications. Stacks needs its moment.
+
+These challenges prevent Stacks from onboarding the next wave of DeFi users who crave excitement and simplicity.
+
+---
+
+## How We Solve It
+
+StackPot transforms boring staking into an exciting, social experience with Bitcoin prizes:
+
+1. **One-Click Deposits** – Deposit any amount of STX (no minimums) through our simple interface.
+2. **Automatic Bitcoin Yields** – Funds are routed through StackingDAO to generate real Bitcoin yields via Proof of Transfer.
+3. **Weekly Lottery Draws** – Bitcoin block hash randomness selects winners for accumulated prize pools.
+4. **100% Principal Safety** – Withdraw your full deposit anytime—this is truly no-loss.
+5. **Provably Fair** – No oracles, no manipulation—just Bitcoin's own hash power ensuring fairness.
+
+![user-flow](https://via.placeholder.com/1000x600/FFFFFF/5546FF?text=User+Flow+Diagram)
+
+---
+
+## Why Now?
+
+DeFi adoption is accelerating, but Stacks needs a narrative:
+
+- **PoolTogether proves the model** – $300M TVL and 50K+ users validate prize-linked savings.
+- **Bitcoin yields are aspirational** – Users want BTC, not stablecoins (cultural significance).
+- **Nakamoto upgrade + sBTC** – Stacks ecosystem momentum is at an all-time high.
+- **Gamification drives retention** – DeFi protocols with gamification see 3-5x higher engagement.
+
+Now is the perfect moment to build the gateway application that onboards users to Stacks.
+
+---
+
+## Existing Solutions vs. StackPot
+
+While PoolTogether pioneered no-loss lotteries, StackPot brings critical improvements:
+
+| Feature                     | PoolTogether | Traditional Stacking | StackPot |
+|-----------------------------|--------------|---------------------|----------|
+| Bitcoin Prizes              | ❌ No (stablecoins) | ✅ Yes | ✅ Yes |
+| Free Randomness             | ❌ No (Chainlink VRF ~$5-10/draw) | N/A | ✅ Yes (Bitcoin blocks) |
+| Zero Principal Risk         | ✅ Yes | ✅ Yes | ✅ Yes |
+| No Minimum Deposit          | ✅ Yes | ❌ No (often 100+ STX) | ✅ Yes |
+| One-Click Setup             | ✅ Yes | ❌ No (complex) | ✅ Yes |
+| Weighted Tickets (Coming)   | ❌ No | N/A | ✅ Yes |
+| Team Mode (Coming)          | ❌ No | N/A | ✅ Yes |
+
+**StackPot's unique advantages:**
+- **Bitcoin-native** – Prizes in BTC, secured by Bitcoin block randomness
+- **Cost-efficient** – No oracle fees = bigger prizes for users
+- **StackingDAO integration** – Battle-tested infrastructure for yields
+- **Simplified model** – Learned from PoolTogether's complexity issues
+
+---
+
+## Future Plans
+
+### 🚀 Coming Soon (Post-Launch)
+
+**Weighted Tickets**
+- Early depositors earn more tickets over time
+- Prevents last-second ticket sniping
+- Rewards loyal community members
+
+**Team Mode**
+- Pool tickets with friends to increase collective odds
+- Social competition drives viral growth
+- Every winner brings their entire crew to Stacks
+
+### 📈 Roadmap
+
+- **Q1 2025** – Security audit + Mainnet launch
+- **Q2 2025** – 500 users, $1M TVL, launch weighted tickets
+- **Q3 2025** – Team mode + mobile app
+- **Q4 2025** – 2,000 users, cross-protocol integrations, DAO governance
+
+---
+
+## Tech Stack
+
+**Frontend:**
+- Next.js (React)
+- Tailwind CSS
+- Stacks.js / @stacks/connect
+- Real-time WebSocket updates
+
+**Smart Contracts:**
+- Clarity (Stacks native language)
+- StackingDAO integration
+- Bitcoin block hash randomness
+
+**Backend & Monitoring:**
+- Real-time yield tracking
+- Prize pool calculations
+- Draw automation
+- Liquidation risk monitoring (future)
+
+![tech-stack](https://via.placeholder.com/1000x600/FFFFFF/5546FF?text=Tech+Stack+Diagram)
+
+---
+
+## 📝 Smart Contracts
+
+### Testnet Deployment
+
+**Deployer Address:** `ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA`
+
+#### 1. Pool Manager V3
+```
+ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.pool-manager-v3
+```
+Handles STX deposits, withdrawals, and participant tracking.
+
+🔗 [View on Testnet Explorer](https://explorer.hiro.so/txid/ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.pool-manager-v3?chain=testnet)
+
+#### 2. Prize Distributor V3
+```
+ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.prize-distributor-v3
+```
+Manages weekly draws using Bitcoin block hash randomness and prize distribution.
+
+🔗 [View on Testnet Explorer](https://explorer.hiro.so/txid/ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.prize-distributor-v3?chain=testnet)
+
+#### 3. Stacking Adapter V3
+```
+ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.stacking-adapter-v3
+```
+Routes deposits through StackingDAO for Bitcoin yield generation.
+
+🔗 [View on Testnet Explorer](https://explorer.hiro.so/txid/ST1C1HJWSY1H5HW0TB9WZ4SMBA8MZHVY6S8VXY3BA.stacking-adapter-v3?chain=testnet)
+
+---
+
+### Mainnet Deployment (Coming Q1 2025)
+
+**Deployer Address:** `TBD`
+
+#### 1. Pool Manager
+```
+[Mainnet address TBD]
+```
+🔗 [View on Mainnet Explorer](#)
+
+#### 2. Prize Distributor
+```
+[Mainnet address TBD]
+```
+🔗 [View on Mainnet Explorer](#)
+
+#### 3. Stacking Adapter
+```
+[Mainnet address TBD]
+```
+🔗 [View on Mainnet Explorer](#)
+
+---
+
+## 📊 Validation Results
+
+We conducted extensive validation over 7 days:
+
+- **15+ user conversations** across Reddit, Discord, and Twitter
+- **2,000+ people reached** through social channels
+- **10+ committed users** ready to deposit 5-10% of their STX holdings
+- **Technical feasibility confirmed** in under 3 hours of testing
+- **Zero direct competitors** identified on Stacks
+
+### Key User Feedback:
+
+> "I was a PoolTogether depositor since their 2nd drawing. About 1.5 years ago I withdrew everything because every new version added too much complexity... Would definitely try out your protocol!"  
+> — u/minorthreatmikey (Reddit, PoolTogether veteran)
+
+> "This would be awesome! I've been thinking about building a stackingDAO pool for a game."  
+> — u/TerribleeT (Reddit, active Stacker)
+
+> "If this works like PoolTogether but with BTC prizes, I'm 100% in."  
+> — User @defi_degen (Discord)
+
+**Full validation report:** [Read stackpot_validation.md](./stackpot_validation.md)
+
+---
+
+## 🏗️ How It Works (Technical)
+
+### Architecture Overview
 
 ```
-stackpot/
-├── contracts/
-│   └── pool-manager.clar         # Core pool management contract
-├── tests/
-│   └── pool-manager.test.ts      # Vitest unit tests
-├── settings/
-│   ├── Devnet.toml
-│   ├── Testnet.toml
-│   └── Mainnet.toml
-└── Clarinet.toml                 # Project configuration
+┌─────────────┐
+│   User      │
+│  (Wallet)   │
+└──────┬──────┘
+       │ Deposit STX
+       ▼
+┌─────────────────────┐
+│  Pool Manager V3    │
+│  - Track deposits   │
+│  - Calculate shares │
+└──────┬──────────────┘
+       │ Route to stacking
+       ▼
+┌─────────────────────┐
+│ Stacking Adapter V3 │
+│ - StackingDAO calls │
+│ - Yield tracking    │
+└──────┬──────────────┘
+       │ Accumulate BTC yields
+       ▼
+┌─────────────────────┐
+│Prize Distributor V3 │
+│ - Bitcoin block hash│
+│ - Winner selection  │
+│ - Prize payout      │
+└─────────────────────┘
 ```
 
-## Contracts
+### Key Components:
 
-### pool-manager.clar
+**1. Pool Manager**
+- Manages user deposits and withdrawals
+- Tracks participant balances and shares
+- Calculates ticket allocation (1 STX = 1 ticket)
+- Instant withdrawal (1% fee) or traditional (14-day wait)
 
-The core contract handling:
-- **STX deposits** with 1 STX minimum (`deposit`)
-- **STX withdrawals** anytime (`withdraw`, `withdraw-all`)
-- **Participant tracking** for winner selection
-- **Balance management** with security checks
+**2. Stacking Adapter**
+- Integrates with StackingDAO for yield generation
+- Converts STX → stSTX for automatic Bitcoin rewards
+- Tracks accumulated yields from stacking
+- Demo mode for hackathon presentations
 
-#### Key Functions
+**3. Prize Distributor**
+- Uses Bitcoin block hash (`burn-block-height` + `get-block-info?`) for randomness
+- Weighted selection based on deposit size
+- Weekly draws (configurable)
+- Prize claiming system
 
-**Public Functions:**
-- `(deposit (amount uint))` - Deposit STX into pool
-- `(withdraw (amount uint))` - Withdraw specific amount
-- `(withdraw-all)` - Withdraw entire balance
+### Security Features:
 
-**Read-Only Functions:**
-- `(get-balance (participant principal))` - Get user's balance
-- `(get-total-pool)` - Get total pool size
-- `(get-participant-count)` - Get number of participants
-- `(get-participant (index uint))` - Get participant by index (for winner selection)
-- `(get-contract-info)` - Get contract constants and state
+✅ **Non-custodial** – Users maintain control via smart contracts  
+✅ **Provably fair** – Bitcoin block hashes can't be manipulated  
+✅ **No oracles** – Eliminates third-party risk and costs  
+✅ **Clarity security** – Decidable language prevents reentrancy attacks  
+✅ **Auditable** – All transactions on-chain and verifiable  
 
-#### Security Features
+---
 
-1. **Checks-Effects-Interactions Pattern**: Updates state before transfers
-2. **Input Validation**: Minimum deposit enforcement (1 STX)
-3. **Reentrancy Protection**: State updates before external calls
-4. **Participant Limit**: Max 1,000 participants
-5. **Balance Verification**: Prevents over-withdrawal
+## 🚀 Getting Started
 
-#### Data Structures
+### For Users
 
-```clarity
-;; Track individual balances
-(define-map participant-balances principal uint)
+1. **Connect Wallet** – Use Hiro Wallet or Leather Wallet
+2. **Deposit STX** – Any amount, no minimums
+3. **Earn Tickets** – 1 STX deposited = 1 lottery ticket
+4. **Wait for Draw** – Weekly draws every ~1,008 blocks (~1 week)
+5. **Win Bitcoin** – Check if you won, claim your prize
+6. **Withdraw Anytime** – 100% of your principal, always
 
-;; Track participant list for winner selection
-(define-map participant-list uint principal)
-
-;; Reverse lookup for participant indices
-(define-map participant-index principal uint)
-
-;; Total pool balance
-(define-data-var total-pool-balance uint u0)
-
-;; Participant counter
-(define-data-var participant-count uint u0)
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Clarinet 3.7.0+ installed
-- Node.js 20+ (for unit tests)
-
-### Installation
+### For Developers
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/stackpot.git
 cd stackpot
-
-# Ensure Node.js 20 is active
-nvm use 20  # or install with: nvm install 20
 
 # Install dependencies
 npm install
 
-# Check contract syntax
+# Run local development
+npm run dev
+
+# Deploy contracts (testnet)
+cd stackpot
 clarinet check
-
-# Run unit tests
-npm test
+clarinet deployments apply -p deployments/default.testnet-plan.yaml
 ```
 
-### Test Results ✅
-
-**All 33 tests passing!**
-
-- **19 core tests** ([tests/pool-manager.test.ts](stackpot/tests/pool-manager.test.ts))
-  - Contract initialization verification
-  - Deposit functionality (minimum amounts, multiple deposits, participant tracking)
-  - Withdrawal functionality (partial, full, error conditions)
-  - Balance query accuracy
-  - Participant management across deposits/withdrawals
-
-- **14 advanced tests** ([tests/pool-manager-advanced.test.ts](stackpot/tests/pool-manager-advanced.test.ts))
-  - **Direct state inspection**: Using `simnet.getDataVar()` and `simnet.getMapEntry()` to verify internal contract state
-  - **Event verification**: Checking STX transfer events on deposits/withdrawals
-  - **Block height manipulation**: Testing time-based scenarios (weekly draws at 1,008 blocks)
-  - **Full lifecycle simulation**: Multi-participant scenarios over simulated time periods
-
-The advanced tests demonstrate patterns from the [official Stacks stream example](stream_example.md):
-```typescript
-// Direct state access
-const balance = simnet.getDataVar("pool-manager", "total-pool-balance");
-const participant = simnet.getMapEntry("pool-manager", "participant-list", Cl.uint(0));
-
-// Event verification
-expect(result.events[0].event).toBe("stx_transfer_event");
-expect(result.events[0].data.amount).toBe("5000000");
-
-// Time simulation
-simnet.mineEmptyBlocks(1008); // Simulate 1 week
-```
-
-### Manual Testing
-
-You can also test manually using Clarinet console:
-
-```bash
-# Start Clarinet console
-clarinet console
-
-# In the console, run:
-(contract-call? .pool-manager get-total-pool)
-(contract-call? .pool-manager deposit u1000000)  ;; Deposit 1 STX
-(contract-call? .pool-manager get-balance tx-sender)
-(contract-call? .pool-manager withdraw u500000)  ;; Withdraw 0.5 STX
-(contract-call? .pool-manager withdraw-all)
-```
-
-Or use the provided test script:
-```bash
-# In clarinet console:
-::load test-script.clar
-```
-
-## Development Status
-
-### ✅ Completed (Week 1)
-- [x] Clarinet project setup
-- [x] Pool manager contract with deposit/withdraw (194 lines)
-- [x] Participant tracking system (3 data structures)
-- [x] Balance management with security checks
-- [x] Reentrancy protection & input validation
-- [x] **33 passing tests** (19 core + 14 advanced)
-- [x] Advanced simnet testing patterns
-- [x] Manual test script
-- [x] Fixed arithmetic underflow bug
-- [x] Comprehensive documentation
-
-### 🚧 Next Steps (Week 2)
-
-1. **Prize Distribution Contract**
-   - Bitcoin block-based randomness
-   - Winner selection using `(mod block-hash participant-count)`
-   - Prize claiming mechanism
-   - Weekly draw timing (~1,008 blocks)
-
-2. **StackingDAO Integration**
-   - Interface with StackingDAO contracts
-   - Automatic stacking of pooled STX
-   - Bitcoin reward collection
-   - Prize pool accumulation
-
-3. **Frontend Development**
-   - React/Next.js setup
-   - Stacks.js wallet integration (Leather/Xverse)
-   - Pool stats dashboard
-   - Deposit/withdraw UI
-   - Winner history display
-
-4. **Testing & Deployment**
-   - Integration tests
-   - Testnet deployment
-   - Frontend-contract integration
-   - Security review
-
-## Architecture Notes
-
-### Participant Management
-
-The contract maintains three data structures for efficient participant tracking:
-
-1. **participant-balances**: `principal -> uint` - Fast balance lookups
-2. **participant-list**: `uint -> principal` - Array-like structure for winner selection
-3. **participant-index**: `principal -> uint` - Reverse lookup for indices
-
-When a user withdraws all funds, their balance is set to zero but they remain in the participant list to maintain index stability. The `get-participant` function filters out inactive participants.
-
-### Winner Selection (To Be Implemented)
-
-```clarity
-;; Pseudocode for next contract
-(define-read-only (select-winner)
-  (let (
-    (block-hash (unwrap! (get-block-info? header-hash (- burn-block-height u1)) none))
-    (active-count (get-active-participant-count))
-    (winner-index (mod (buff-to-uint block-hash) active-count))
-  )
-    (get-participant winner-index)
-  )
-)
-```
-
-### Edge Cases Handled
-
-1. **Empty pool during draw**: Check participant count before selection
-2. **User withdraws during draw**: Snapshot participants at draw time
-3. **List growth beyond 1000**: Enforced MAX_PARTICIPANTS limit
-4. **Reentrancy attacks**: State updates before transfers
-5. **Integer overflow**: Clarity has built-in overflow protection
-
-## Error Codes
-
-- `u100` - ERR-NOT-AUTHORIZED
-- `u101` - ERR-INVALID-AMOUNT
-- `u102` - ERR-INSUFFICIENT-BALANCE
-- `u103` - ERR-TRANSFER-FAILED
-- `u104` - ERR-PARTICIPANT-LIMIT-REACHED
-
-## Contract Addresses (TBD)
-
-- Testnet: (deploy after testing)
-- Mainnet: (deploy after audit)
-
-## Resources
-
-- [Clarity Language Reference](https://docs.stacks.co/clarity/)
-- [Clarinet Documentation](https://docs.hiro.so/clarinet/)
-- [StackingDAO](https://www.stackingdao.com/)
-- [PoolTogether Inspiration](https://pooltogether.com/)
-
-## License
-
-MIT
-
-## Hackathon Deadline
-
-**October 17th, 2025**
+**Documentation:**
+- [Deployment Guide](./stackpot/DEPLOYMENT_README.md)
+- [Contract Documentation](./stackpot/contracts/)
+- [Frontend Setup](./frontend/README.md)
 
 ---
 
-Built with Claude Code for Stacks Hackathon
+## 🎯 Market Opportunity
+
+### Total Addressable Market (TAM)
+- **350M STX idle** (~$525M at current prices)
+- **70% of STX not actively stacked**
+- **$42-63M/year** in foregone Bitcoin yields
+
+### Target Market (Year 1)
+- **1% of idle STX** = $5.25M TVL
+- **500-1,000 users** (avg $5K-10K deposit)
+- **$500+ weekly prizes** driving viral growth
+
+### Growth Strategy
+1. **Phase 1 (Launch)** – Onboard 50 early adopters from validation
+2. **Phase 2 (Month 1-3)** – Community growth through winner announcements
+3. **Phase 3 (Month 3-6)** – Viral expansion via team mode
+4. **Phase 4 (Month 6-12)** – Cross-protocol integrations and partnerships
+
+**Competitive Moat:**
+- First mover in gamified savings on Stacks
+- Bitcoin-native randomness (unique technical advantage)
+- Network effects (bigger prizes attract more users)
+- StackingDAO integration creates switching costs
+
+---
+
+## 🏆 Why StackPot Will Win
+
+### Proven Model
+- PoolTogether: $300M TVL, 50K+ users
+- Prize-linked savings work across cultures and demographics
+- No-loss mechanic reduces friction and risk
+
+### Bitcoin Alignment
+- Uses Bitcoin block hashes for randomness (free + secure)
+- Prizes paid in BTC (aspirational asset)
+- Increases Bitcoin utility through Stacks' PoX
+
+### Technical Excellence
+- Clean Clarity smart contracts
+- StackingDAO integration for proven yield infrastructure
+- Real-time monitoring and automation
+- Security-first approach
+
+### User Validation
+- 10+ committed users ready to deposit
+- Strong social proof from PoolTogether veterans
+- Clear product-market fit on Stacks
+
+### Ecosystem Impact
+- **Onboarding mechanism** – Your intro into Stacks
+- **Narrative driver** – Makes "StackPotting" a verb
+- **Liquidity magnet** – Attracts capital to Stacks ecosystem
+- **Community builder** – Weekly winners create engaged user base
+
+---
+
+## 📹 Media & Resources
+
+- **Demo Video:** [Watch on YouTube](#)
+- **Slide Deck:** [View Presentation](#)
+- **Validation Report:** [Read Full Document](./stackpot_validation.md)
+- **Technical Docs:** [Deployment Guide](./stackpot/DEPLOYMENT_README.md)
+- **Pitch Deck:** [View Slides](#)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! See our [Contributing Guide](./CONTRIBUTING.md) for details.
+
+**Areas we need help:**
+- Frontend development (React/Next.js)
+- Clarity smart contract optimization
+- Security auditing
+- Community management
+- Documentation
+
+---
+
+## 📜 License
+
+MIT License - see [LICENSE](./LICENSE) for details.
+
+---
+
+## 🌟 Bounties & Tracks
+
+**Stacks Hackathon Tracks:**
+- ✅ **General Track** – Real-world DeFi utility
+- ✅ **StackingDAO Integration** – Leverages proven stacking infrastructure
+- ✅ **Bitcoin Innovation** – Uses Bitcoin block hashes for randomness
+- ✅ **User Adoption** – Gateway application for ecosystem onboarding
+
+---
+
+## 📧 Contact
+
+- **Twitter:** [@StackPotxyz](#)
+- **Discord:** [Join our community](#)
+- **Email:** hello@stackpot.xyz
+- **Website:** [stackpot.xyz](#)
+
+---
+
+**Built with ♥ during Stacks Hackathon 2025**
+
+*"What are you doing with your STX? Definitely StackPotting it!"*
