@@ -4,7 +4,8 @@
 
 **StackPot** is a no-loss Bitcoin lottery on Stacks where users deposit STX, earn Bitcoin yields through staking, and compete for weekly prize pools—all while maintaining 100% principal safety.
 
-[Demo Video](#) | [Prototype App](https://stacks-hackathon-stack-pot-wv5o.vercel.app/) | [Validation Document](./stackpot_validation.md)
+[Slides Presentation Video](https://youtu.be/MWx6Q-Ah9OQ) | [Live Demo Video](#) | [Prototype App](https://stacks-hackathon-stack-pot-wv5o.vercel.app/) | [Validation Document](./stackpot_validation.md)
+
 ---
 
 ## The Problem We Are Solving
@@ -267,41 +268,9 @@ Routes deposits through StackingDAO for Bitcoin yield generation.
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions from the community! See our [Contributing Guide](./CONTRIBUTING.md) for details.
-
-**Areas we need help:**
-- Frontend development (React/Next.js)
-- Clarity smart contract optimization
-- Security auditing
-- Community management
-- Documentation
-
----
-
 ## 📜 License
 
 MIT License - see [LICENSE](./LICENSE) for details.
-
----
-
-## 🌟 Bounties & Tracks
-
-**Stacks Hackathon Tracks:**
-- ✅ **General Track** – Real-world DeFi utility
-- ✅ **StackingDAO Integration** – Leverages proven stacking infrastructure
-- ✅ **Bitcoin Innovation** – Uses Bitcoin block hashes for randomness
-- ✅ **User Adoption** – Gateway application for ecosystem onboarding
-
----
-
-## 📧 Contact
-
-- **Twitter:** [@StackPotxyz](#)
-- **Discord:** [Join our community](#)
-- **Email:** hello@stackpot.xyz
-- **Website:** [stackpot.xyz](#)
 
 ---
 
